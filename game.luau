@@ -12,15 +12,8 @@ end
 
 function FirstGame.on_tick(api, _delta_seconds)
     -- Game-specific rules belong here as the first game grows.
-    -- Movement, collision, and launch-pad timing remain platform services.
-end
-
-function FirstGame.on_launch(api, launch)
-    api.session:start("real-game", {
-        launch_pad_id = launch.pad_id,
-        player_ids = launch.player_ids,
-    })
+    -- Movement, collision, launch-pad timing, and manifest world routes remain
+    -- platform services.
 end
 
 return FirstGame
-

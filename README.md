@@ -17,10 +17,11 @@ input, audio, and native lifecycle concerns.
 - `assets/` — optional shared assets, when the game needs them
 
 The first game currently demonstrates the shared lobby pattern: players join a
-launch pad, the platform runtime owns the countdown and occupancy, and the
-game script receives the launch event to begin `real-game`. That session keeps
-only the players assembled on the winning pad and loads a small clearing with
-no launch pads.
+launch pad, the platform runtime owns the countdown, occupancy, selected-player
+cohort, and declarative route to `real-game`. That session keeps only the
+players assembled on the winning pad and loads a small clearing with no launch
+pads. Luau callbacks remain available for game-specific effects and rules
+around that platform lifecycle; the first game does not need one for routing.
 
 The native Rust host executes the Luau callbacks today. The browser package
 loader and Rust ABI are already shaped for the same flow, but the browser
