@@ -18,7 +18,9 @@ input, audio, and native lifecycle concerns.
 
 The first game currently demonstrates the shared lobby pattern: players join a
 launch pad, the platform runtime owns the countdown and occupancy, and the
-game script receives the launch event to begin the next session.
+game script receives the launch event to begin `real-game`. That session keeps
+only the players assembled on the winning pad and loads a small clearing with
+no launch pads.
 
 The native Rust host executes the Luau callbacks today. The browser package
 loader and Rust ABI are already shaped for the same flow, but the browser

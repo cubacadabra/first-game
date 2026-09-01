@@ -3,6 +3,10 @@
   "version": 1,
   "sdkVersion": "0.1",
   "displayName": "First Game",
+  "startWorld": "lobby",
+  "launch": {
+    "destinationWorld": "real-game"
+  },
   "scene": {
     "eyebrow": "cubacadabra",
     "title": "Lobby",
@@ -67,6 +71,40 @@
     { "position": [-22, 0.35, -34], "size": [1.2, 0.7, 1.2], "color": "coral", "outline": false },
     { "position": [24, 0.5, -39], "size": [1.5, 1, 1.5], "color": "butter", "outline": false },
     { "position": [-28, 0.5, 18], "size": [1.5, 1, 1.5], "color": "periwinkle", "outline": false }
-  ]
+  ],
+  "worlds": {
+    "real-game": {
+      "scene": {
+        "eyebrow": "first game",
+        "title": "The Clearing",
+        "description": "The launch is complete. Find your footing.",
+        "maxPlayers": 18
+      },
+      "palette": {
+        "ground": "#536e70",
+        "groundEdge": "#2f4d52",
+        "grid": "#78999a",
+        "coral": "#e98268",
+        "butter": "#e6c66f",
+        "periwinkle": "#99afe5",
+        "ink": "#172f38",
+        "paper": "#edf0e5"
+      },
+      "world": {
+        "groundSize": 92,
+        "gridSize": 84,
+        "gridDivisions": 21,
+        "spawn": [0, 0, 8],
+        "showSpawnPad": false,
+        "clouds": []
+      },
+      "launchPads": [],
+      "blocks": [
+        { "position": [0, 1, -7], "size": [4, 2, 4], "color": "coral" },
+        { "position": [-7, 0.75, -10], "size": [2.5, 1.5, 2.5], "color": "butter" },
+        { "position": [8, 1.5, -13], "size": [3, 3, 3], "color": "periwinkle" },
+        { "position": [0, 0.5, 1], "size": [1, 1, 1], "color": "ink", "outline": false }
+      ]
+    }
+  }
 }
-
