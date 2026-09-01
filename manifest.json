@@ -14,6 +14,7 @@
     "maxPlayers": 18
   },
   "palette": {
+    "sky": "#9ab9be",
     "ground": "#8caf83",
     "groundEdge": "#5f806d",
     "grid": "#71977e",
@@ -81,6 +82,7 @@
         "maxPlayers": 18
       },
       "palette": {
+        "sky": "#9ab9be",
         "ground": "#536e70",
         "groundEdge": "#2f4d52",
         "grid": "#78999a",
