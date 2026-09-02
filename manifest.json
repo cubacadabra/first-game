@@ -51,6 +51,17 @@
       { "position": [42, 15, 12], "scale": 0.95 }
     ]
   },
+  "settingsRoom": {
+    "worldId": "lobby",
+    "doorPosition": [20, 0, -3.7],
+    "proximityRadius": 7,
+    "bounds": {
+      "minX": 17.1,
+      "maxX": 22.9,
+      "minZ": -8.5,
+      "maxZ": -3.05
+    }
+  },
   "launchPads": [
     {
       "id": "sun-court",
@@ -87,7 +98,15 @@
     { "position": [13, 0.5, -17], "size": [1, 1, 1], "color": "ink", "outline": false },
     { "position": [-22, 0.35, -34], "size": [1.2, 0.7, 1.2], "color": "coral", "outline": false },
     { "position": [24, 0.5, -39], "size": [1.5, 1, 1.5], "color": "butter", "outline": false },
-    { "position": [-28, 0.5, 18], "size": [1.5, 1, 1.5], "color": "periwinkle", "outline": false }
+    { "position": [-28, 0.5, 18], "size": [1.5, 1, 1.5], "color": "periwinkle", "outline": false },
+    { "position": [17.8, 2.25, -3.7], "size": [1, 4.5, 1], "color": "ink" },
+    { "position": [22.2, 2.25, -3.7], "size": [1, 4.5, 1], "color": "ink" },
+    { "position": [20, 4.25, -3.7], "size": [3.4, 0.8, 1], "color": "ink" },
+    { "position": [20, 3.7, -3.12], "size": [0.72, 0.72, 0.22], "color": "butter", "outline": false },
+    { "position": [20, 4.2, -3.12], "size": [0.24, 0.32, 0.22], "color": "butter", "outline": false },
+    { "position": [20, 3.35, -3.12], "size": [0.24, 0.32, 0.22], "color": "butter", "outline": false },
+    { "position": [19.43, 3.7, -3.12], "size": [0.32, 0.24, 0.22], "color": "butter", "outline": false },
+    { "position": [20.57, 3.7, -3.12], "size": [0.32, 0.24, 0.22], "color": "butter", "outline": false }
   ],
   "worlds": {
     "real-game": {
