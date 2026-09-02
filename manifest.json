@@ -24,6 +24,22 @@
     "ink": "#264b4b",
     "paper": "#f6f1e7"
   },
+  "avatars": {
+    "player": {
+      "skin": "#e8ae86",
+      "shirt": "#2d6663",
+      "pants": "#536a90",
+      "shoes": "#293a43"
+    },
+    "npcs": [
+      { "skin": "#f0b18a", "shirt": "#e76f51", "pants": "#355070", "shoes": "#293a43" },
+      { "skin": "#d99770", "shirt": "#5f8f78", "pants": "#3e5974", "shoes": "#293a43" },
+      { "skin": "#f4c39f", "shirt": "#748bd2", "pants": "#43515e", "shoes": "#293a43" },
+      { "skin": "#c98263", "shirt": "#f0b54d", "pants": "#385c62", "shoes": "#293a43" },
+      { "skin": "#e4a77b", "shirt": "#b276a9", "pants": "#4b5e80", "shoes": "#293a43" },
+      { "skin": "#f1c29b", "shirt": "#3f8884", "pants": "#414b5b", "shoes": "#293a43" }
+    ]
+  },
   "world": {
     "groundSize": 120,
     "gridSize": 112,
