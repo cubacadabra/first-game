@@ -7,7 +7,7 @@
 local FirstGame = {}
 
 function FirstGame.on_start(api)
-    api.lobby:set_status("Players are finding their launch pads")
+    api.lobby:set_status("Step onto BUILD TOGETHER to start a shared build")
 end
 
 function FirstGame.on_tick(api, _delta_seconds)

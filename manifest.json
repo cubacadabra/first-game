@@ -5,12 +5,13 @@
   "displayName": "First Game",
   "startWorld": "lobby",
   "launch": {
-    "destinationWorld": "real-game"
+    "destinationWorld": "real-game",
+    "authoritative": true
   },
   "scene": {
     "eyebrow": "cubacadabra",
     "title": "Lobby",
-    "description": "Walk, run, and jump if you dare.",
+    "description": "Choose BUILD TOGETHER to make something with the people here.",
     "maxPlayers": 18
   },
   "palette": {
@@ -58,13 +59,14 @@
   },
   "launchPads": [
     {
-      "id": "sun-court",
+      "id": "build-together",
       "code": "GATE 01",
-      "label": "SUN COURT",
+      "label": "BUILD TOGETHER",
       "position": [-10, 0, -3],
       "color": "#ed725b",
       "radius": 2.7,
-      "countdown": 8
+      "countdown": 8,
+      "enabled": true
     },
     {
       "id": "deep-dive",
@@ -73,7 +75,9 @@
       "position": [0, 0, -7],
       "color": "#f2c764",
       "radius": 2.7,
-      "countdown": 8
+      "countdown": 8,
+      "enabled": false,
+      "availabilityLabel": "COMING SOON"
     },
     {
       "id": "sky-run",
@@ -82,7 +86,9 @@
       "position": [10, 0, -3],
       "color": "#7898dc",
       "radius": 2.7,
-      "countdown": 8
+      "countdown": 8,
+      "enabled": false,
+      "availabilityLabel": "COMING SOON"
     }
   ],
   "blocks": [
@@ -119,7 +125,7 @@
       "scene": {
         "eyebrow": "first game",
         "title": "The Clearing",
-        "description": "The launch is complete. Find your footing.",
+        "description": "Build together, then take a walk through what you made.",
         "maxPlayers": 18
       },
       "palette": {
@@ -142,6 +148,18 @@
         "clouds": []
       },
       "launchPads": [],
+      "buildRound": {
+        "durationSeconds": 360,
+        "maxBlocks": 180,
+        "gridSize": 1,
+        "prompts": [
+          "Build a tiny home for a very large animal.",
+          "Make a place where you would want to wake up.",
+          "Build a bridge to somewhere impossible.",
+          "Create a monument to your favorite color."
+        ],
+        "colors": ["coral", "butter", "periwinkle", "ink", "paper"]
+      },
       "blocks": [
         { "position": [0, 1, -7], "size": [4, 2, 4], "color": "coral" },
         { "position": [-7, 0.75, -10], "size": [2.5, 1.5, 2.5], "color": "butter" },

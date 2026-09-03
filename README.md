@@ -36,10 +36,11 @@ for the native adapter.
 - `game.luau` — game-specific rules and lifecycle callbacks
 - `assets/` — optional shared assets, when the game needs them
 
-The manifest starts players in the `lobby`. Its three launch pads share a
-countdown and route the winning cohort to `real-game`. The platform runtime
-owns movement, collision, occupancy, countdown, player selection, and world
-routing; the Luau package is the place for game-specific effects and rules.
+The manifest starts players in the `lobby`. `BUILD TOGETHER` is the first live
+launch pad; the other two remain visible as muted `COMING SOON` destinations.
+The backend owns the synchronized countdown and cohort selection. Players then
+enter a shared build round in `real-game`, where the web client can place,
+rotate, remove, recolor, save, and tour blocks together.
 
 The important package URLs on a running web host are:
 
