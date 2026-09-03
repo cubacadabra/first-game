@@ -8,9 +8,9 @@ clients at runtime:
   production build and loads it in the browser.
 - `ios_app` fetches the same `manifest.json` and `game.luau` from the web
   host.
-- `rust` parses the manifest and hosts the Luau lifecycle API used by native
-  clients. The browser currently keeps the scripting seam while its dedicated
-  Luau-WASM runtime is still pending.
+- `rust` parses the manifest and hosts the Luau lifecycle API for native and
+  browser clients. Native builds use `mlua`; the browser build uses the
+  pure-Rust `luaur-rt` runtime behind the same host API.
 
 The repositories are expected to be sibling directories. The backend supplies
 multiplayer world sockets, while this package supplies the world description
