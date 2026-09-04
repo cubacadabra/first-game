@@ -7,6 +7,7 @@ local function shape_trigger(id, icon, visible)
         icon = icon,
         action = "build.shape.toggle",
         visible = visible,
+        visibleIn = { "real-game" },
         layout = { region = "header", width = 56, height = 56 },
         style = GameUIStyles.control_style("#102D3AF7", "#078CF0FF"),
     }
@@ -19,6 +20,7 @@ local function color_trigger(id, label, background, foreground, visible)
         icon = "colorswap",
         action = "build.color.toggle",
         visible = visible,
+        visibleIn = { "real-game" },
         layout = { region = "header", width = 56, height = 56 },
         style = GameUIStyles.control_style(background, "#078CF0FF", foreground),
     }
@@ -69,6 +71,7 @@ function GameUIDocument.create()
                 action = "build.popover.close",
                 blocksInput = true,
                 visible = false,
+                visibleIn = { "real-game" },
                 layout = { width = "fill", height = "fill", ignoreSafeArea = true },
             },
             {
@@ -76,6 +79,7 @@ function GameUIDocument.create()
                 kind = "menu",
                 blocksInput = true,
                 visible = false,
+                visibleIn = { "real-game" },
                 layout = {
                     anchor = "topLeft",
                     width = 336,
@@ -112,6 +116,7 @@ function GameUIDocument.create()
                 kind = "menu",
                 blocksInput = true,
                 visible = false,
+                visibleIn = { "real-game" },
                 layout = {
                     anchor = "topLeft",
                     width = 336,
@@ -149,6 +154,7 @@ function GameUIDocument.create()
             {
                 id = "build-context",
                 kind = "panel",
+                visibleIn = { "real-game" },
                 layout = {
                     region = "bottomCenter",
                     width = "auto",
@@ -195,6 +201,7 @@ function GameUIDocument.create()
                 id = "player-joystick",
                 kind = "joystick",
                 action = "player.move",
+                visibleIn = { "real-game" },
                 layout = { anchor = "bottomLeft", width = 120, height = 120, offset = { 20, -24 } },
                 style = {
                     background = "#091A22C9",
@@ -209,6 +216,7 @@ function GameUIDocument.create()
                 kind = "button",
                 text = "JUMP",
                 action = "player.jump",
+                visibleIn = { "real-game" },
                 layout = { anchor = "bottomRight", width = 86, height = 44, offset = { -22, -84 } },
                 style = GameUIStyles.control_style("#102D3AE8", "#078CF0FF", "#F7F8EEFF", 14),
             },
@@ -217,6 +225,7 @@ function GameUIDocument.create()
                 kind = "button",
                 text = "RUN",
                 action = "player.run",
+                visibleIn = { "real-game" },
                 layout = { anchor = "bottomRight", width = 86, height = 44, offset = { -22, -30 } },
                 style = GameUIStyles.control_style("#102D3AE8", "#078CF0FF", "#F7F8EEFF", 14),
             },
