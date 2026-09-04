@@ -1,29 +1,9 @@
--- The portable rules for Cubacadabra's first game.
---
--- Build controls use two compact surfaces: the header button opens a transient
--- block picker, while the bottom-center strip keeps only the three actions that
--- are useful during placement. This keeps the world visible and leaves both
--- hands free for movement and camera input on a phone or tablet.
+local GameUIDocument = {}
 
-local FirstGame = {}
+function GameUIDocument.create()
+    local control_style = GameUIStyles.control_style
 
-local function control_style(background, accent)
     return {
-        background = background,
-        borderColor = "#D6E8E455",
-        borderWidth = 1,
-        cornerRadius = 16,
-        foreground = "#EDF0E5FF",
-        accent = accent or "#36A9FFFF",
-    }
-end
-
-function FirstGame.on_start(api)
-    api.lobby:set_status("Step onto BUILD TOGETHER to start a shared build")
-    api.ui.selected_shape = "CUBE"
-    api.ui.selected_color = "CORAL"
-    api.ui.menu_open = false
-    api.ui:set_document({
         nodes = {
             -- A game-owned icon is appended after the four shared header icons.
             {
@@ -330,59 +310,5 @@ function FirstGame.on_start(api)
                 },
             },
         },
-    })
-end
-
-function FirstGame.on_ui_event(api, event)
-    local shapes = {
-        ["build.shape.cube"] = "CUBE",
-        ["build.shape.beam"] = "BEAM",
-        ["build.shape.slab"] = "SLAB",
     }
-    local colors = {
-        ["build.color.coral"] = "CORAL",
-        ["build.color.butter"] = "BUTTER",
-        ["build.color.periwinkle"] = "PERIWINKLE",
-        ["build.color.ink"] = "INK",
-        ["build.color.paper"] = "PAPER",
-    }
-
-    if event.action == "build.menu" then
-        api.ui.menu_open = not api.ui.menu_open
-        api.ui:set_visible("build-scrim", api.ui.menu_open)
-        api.ui:set_visible("build-menu", api.ui.menu_open)
-        api.ui:set_visible("build-context", not api.ui.menu_open)
-    elseif event.action == "build.close" then
-        api.ui.menu_open = false
-        api.ui:set_visible("build-scrim", false)
-        api.ui:set_visible("build-menu", false)
-        api.ui:set_visible("build-context", true)
-    elseif shapes[event.action] then
-        api.ui.menu_open = false
-        api.ui.selected_shape = shapes[event.action]
-        api.ui:set_text("build-selection", api.ui.selected_shape .. "  /  " .. api.ui.selected_color)
-        api.ui:set_visible("build-scrim", false)
-        api.ui:set_visible("build-menu", false)
-        api.ui:set_visible("build-context", true)
-    elseif colors[event.action] then
-        api.ui.menu_open = false
-        api.ui.selected_color = colors[event.action]
-        api.ui:set_text("build-selection", api.ui.selected_shape .. "  /  " .. api.ui.selected_color)
-        api.ui:set_visible("build-scrim", false)
-        api.ui:set_visible("build-menu", false)
-        api.ui:set_visible("build-context", true)
-    elseif event.action == "build.save" or event.action == "build.return" then
-        api.ui.menu_open = false
-        api.ui:set_visible("build-scrim", false)
-        api.ui:set_visible("build-menu", false)
-        api.ui:set_visible("build-context", true)
-    end
 end
-
-function FirstGame.on_tick(api, _delta_seconds)
-    -- Game-specific rules belong here as the first game grows.
-    -- Movement, collision, launch-pad timing, and multiplayer build state
-    -- remain platform services.
-end
-
-return FirstGame

@@ -2,6 +2,10 @@
   "id": "first-game",
   "version": 1,
   "sdkVersion": "0.1",
+  "package": {
+    "formatVersion": 1,
+    "entry": "game.luau"
+  },
   "displayName": "First Game",
   "startWorld": "lobby",
   "launch": {
