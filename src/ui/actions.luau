@@ -1,43 +1,70 @@
 local GameUIActions = {}
 
 local shapes = {
-    ["build.shape.cube"] = "CUBE",
-    ["build.shape.beam"] = "BEAM",
-    ["build.shape.slab"] = "SLAB",
+    ["build.shape.cube"] = "cube",
+    ["build.shape.beam"] = "beam",
+    ["build.shape.slab"] = "slab",
 }
 
 local colors = {
-    ["build.color.coral"] = "CORAL",
-    ["build.color.butter"] = "BUTTER",
-    ["build.color.periwinkle"] = "PERIWINKLE",
-    ["build.color.ink"] = "INK",
-    ["build.color.paper"] = "PAPER",
+    ["build.color.coral"] = "coral",
+    ["build.color.butter"] = "butter",
+    ["build.color.periwinkle"] = "periwinkle",
+    ["build.color.ink"] = "ink",
+    ["build.color.paper"] = "paper",
 }
 
-local function close_menu(api)
-    api.ui.menu_open = false
-    api.ui:set_visible("build-scrim", false)
-    api.ui:set_visible("build-menu", false)
-    api.ui:set_visible("build-context", true)
+local shape_ids = { "cube", "beam", "slab" }
+local color_ids = { "coral", "butter", "periwinkle", "ink", "paper" }
+
+local function close_popovers(api)
+    api.ui.open_popover = nil
+    api.ui:set_visible("build-popover-catcher", false)
+    api.ui:set_visible("build-shape-popover", false)
+    api.ui:set_visible("build-color-popover", false)
+end
+
+local function open_popover(api, name)
+    local should_open = api.ui.open_popover ~= name
+    close_popovers(api)
+    if should_open then
+        api.ui.open_popover = name
+        api.ui:set_visible("build-popover-catcher", true)
+        api.ui:set_visible("build-" .. name .. "-popover", true)
+    end
+end
+
+local function select_shape(api, shape)
+    api.ui.selected_shape = shape
+    for _, id in ipairs(shape_ids) do
+        api.ui:set_checked("build-shape-" .. id, id == shape)
+        api.ui:set_visible("build-shape-trigger-" .. id, id == shape)
+    end
+    close_popovers(api)
+end
+
+local function select_color(api, color)
+    api.ui.selected_color = color
+    for _, id in ipairs(color_ids) do
+        api.ui:set_checked("build-color-" .. id, id == color)
+        api.ui:set_visible("build-color-trigger-" .. id, id == color)
+    end
+    close_popovers(api)
 end
 
 function GameUIActions.handle(api, event)
-    if event.action == "build.menu" then
-        api.ui.menu_open = not api.ui.menu_open
-        api.ui:set_visible("build-scrim", api.ui.menu_open)
-        api.ui:set_visible("build-menu", api.ui.menu_open)
-        api.ui:set_visible("build-context", not api.ui.menu_open)
-    elseif event.action == "build.close" then
-        close_menu(api)
+    if event.phase ~= "activate" then
+        return
+    end
+    if event.action == "build.shape.toggle" then
+        open_popover(api, "shape")
+    elseif event.action == "build.color.toggle" then
+        open_popover(api, "color")
+    elseif event.action == "build.popover.close" then
+        close_popovers(api)
     elseif shapes[event.action] then
-        api.ui.selected_shape = shapes[event.action]
-        api.ui:set_text("build-selection", api.ui.selected_shape .. "  /  " .. api.ui.selected_color)
-        close_menu(api)
+        select_shape(api, shapes[event.action])
     elseif colors[event.action] then
-        api.ui.selected_color = colors[event.action]
-        api.ui:set_text("build-selection", api.ui.selected_shape .. "  /  " .. api.ui.selected_color)
-        close_menu(api)
-    elseif event.action == "build.save" or event.action == "build.return" then
-        close_menu(api)
+        select_color(api, colors[event.action])
     end
 end

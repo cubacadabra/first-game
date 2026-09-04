@@ -1,253 +1,193 @@
 local GameUIDocument = {}
 
-function GameUIDocument.create()
-    local control_style = GameUIStyles.control_style
+local function shape_trigger(id, icon, visible)
+    return {
+        id = id,
+        kind = "button",
+        icon = icon,
+        action = "build.shape.toggle",
+        visible = visible,
+        layout = { region = "header", width = 56, height = 56 },
+        style = GameUIStyles.control_style("#102D3AF7", "#078CF0FF"),
+    }
+end
 
+local function color_trigger(id, label, background, foreground, visible)
+    return {
+        id = id,
+        kind = "button",
+        icon = "colorswap",
+        action = "build.color.toggle",
+        visible = visible,
+        layout = { region = "header", width = 56, height = 56 },
+        style = GameUIStyles.control_style(background, "#078CF0FF", foreground),
+    }
+end
+
+local function shape_choice(id, icon, label, checked)
+    return {
+        id = "build-shape-" .. id,
+        kind = "button",
+        icon = icon,
+        text = label,
+        action = "build.shape." .. id,
+        checked = checked,
+        layout = { width = 96, height = 88 },
+        style = GameUIStyles.control_style("#183A48FF", "#078CF0FF", "#F7F8EEFF", 16),
+    }
+end
+
+local function color_choice(id, background, foreground, checked)
+    return {
+        id = "build-color-" .. id,
+        kind = "button",
+        action = "build.color." .. id,
+        checked = checked,
+        layout = { width = 56, height = 56 },
+        style = GameUIStyles.control_style(background, "#078CF0FF", foreground, 18),
+    }
+end
+
+function GameUIDocument.create()
     return {
         nodes = {
-            -- A game-owned icon is appended after the four shared header icons.
-            {
-                id = "build-menu-button",
-                kind = "button",
-                icon = "build",
-                action = "build.menu",
-                layout = {
-                    region = "header",
-                    width = 56,
-                    height = 56,
-                },
-                style = control_style("#0A86E6EE"),
-            },
+            shape_trigger("build-shape-trigger-cube", "cube", true),
+            shape_trigger("build-shape-trigger-beam", "beam", false),
+            shape_trigger("build-shape-trigger-slab", "slab", false),
 
-            -- The scrim and menu are hidden until the header action is tapped.
-            -- The scrim consumes the rest of the screen so a menu tap never
-            -- becomes an accidental world movement or camera gesture.
+            color_trigger("build-color-trigger-coral", "coral", "#EF725FFF", "#F7F8EEFF", true),
+            color_trigger("build-color-trigger-butter", "butter", "#F3CD6DFF", "#10212AFF", false),
+            color_trigger("build-color-trigger-periwinkle", "periwinkle", "#91A8EEFF", "#10212AFF", false),
+            color_trigger("build-color-trigger-ink", "ink", "#203B46FF", "#F7F8EEFF", false),
+            color_trigger("build-color-trigger-paper", "warm white", "#F7F3E8FF", "#10212AFF", false),
+
+            -- This transparent outside-tap target closes either selector
+            -- without visually obscuring the world.
             {
-                id = "build-scrim",
+                id = "build-popover-catcher",
                 kind = "modal",
-                action = "build.close",
+                action = "build.popover.close",
                 blocksInput = true,
                 visible = false,
-                layout = {
-                    width = "fill",
-                    height = "fill",
-                    ignoreSafeArea = true,
-                },
-                style = { background = "#071216A8" },
+                layout = { width = "fill", height = "fill", ignoreSafeArea = true },
             },
             {
-                id = "build-menu",
+                id = "build-shape-popover",
                 kind = "menu",
                 blocksInput = true,
                 visible = false,
                 layout = {
                     anchor = "topLeft",
-                    width = 252,
-                    height = 276,
-                    offset = { 24, 88 },
+                    width = 336,
+                    height = 136,
+                    offset = { 316, 88 },
                     padding = 12,
                     direction = "column",
                     align = "stretch",
-                    gap = 6,
+                    gap = 8,
                 },
-                style = {
-                    background = "#102A34FA",
-                    borderColor = "#C9E0DE66",
-                    borderWidth = 1,
-                    cornerRadius = 18,
-                },
+                style = GameUIStyles.popover_style(),
                 children = {
                     {
-                        id = "build-menu-title",
+                        id = "build-shape-title",
                         kind = "text",
-                        text = "BUILD TOGETHER",
-                        layout = { width = "fill", height = 24 },
-                        style = { fontSize = 13, foreground = "#EDF0E5FF" },
+                        text = "CHOOSE A SHAPE",
+                        layout = { width = "fill", height = 20 },
+                        style = { fontSize = 15, foreground = "#F7F8EEFF" },
                     },
                     {
-                        id = "build-selection",
+                        id = "build-shape-options",
+                        kind = "stack",
+                        layout = { width = "fill", height = 88, direction = "row", align = "center", gap = 10 },
+                        children = {
+                            shape_choice("cube", "cube", "CUBE", true),
+                            shape_choice("beam", "beam", "BEAM", false),
+                            shape_choice("slab", "slab", "SLAB", false),
+                        },
+                    },
+                },
+            },
+            {
+                id = "build-color-popover",
+                kind = "menu",
+                blocksInput = true,
+                visible = false,
+                layout = {
+                    anchor = "topLeft",
+                    width = 336,
+                    height = 108,
+                    offset = { 380, 88 },
+                    padding = 12,
+                    direction = "column",
+                    align = "stretch",
+                    gap = 8,
+                },
+                style = GameUIStyles.popover_style(),
+                children = {
+                    {
+                        id = "build-color-title",
                         kind = "text",
-                        text = "CUBE  /  CORAL",
-                        layout = { width = "fill", height = 18 },
-                        style = { fontSize = 10, foreground = "#9EB9B5FF" },
+                        text = "CHOOSE A COLOR",
+                        layout = { width = "fill", height = 20 },
+                        style = { fontSize = 15, foreground = "#F7F8EEFF" },
                     },
                     {
-                        id = "build-shapes",
+                        id = "build-color-options",
                         kind = "stack",
-                        layout = {
-                            width = "fill",
-                            height = 56,
-                            direction = "row",
-                            align = "center",
-                            gap = 6,
-                        },
+                        layout = { width = "fill", height = 56, direction = "row", align = "center", gap = 7 },
                         children = {
-                            {
-                                id = "build-shape-cube",
-                                kind = "button",
-                                icon = "cube",
-                                text = "CUBE",
-                                action = "build.shape.cube",
-                                layout = { width = 68, height = 56 },
-                                style = control_style("#FFFFFF18"),
-                            },
-                            {
-                                id = "build-shape-beam",
-                                kind = "button",
-                                icon = "beam",
-                                text = "BEAM",
-                                action = "build.shape.beam",
-                                layout = { width = 68, height = 56 },
-                                style = control_style("#FFFFFF18"),
-                            },
-                            {
-                                id = "build-shape-slab",
-                                kind = "button",
-                                icon = "slab",
-                                text = "SLAB",
-                                action = "build.shape.slab",
-                                layout = { width = 68, height = 56 },
-                                style = control_style("#FFFFFF18"),
-                            },
-                        },
-                    },
-                    {
-                        id = "build-color-label",
-                        kind = "text",
-                        text = "COLOR",
-                        layout = { width = "fill", height = 18 },
-                        style = { fontSize = 10, foreground = "#9EB9B5FF" },
-                    },
-                    {
-                        id = "build-colors",
-                        kind = "stack",
-                        layout = {
-                            width = "fill",
-                            height = 44,
-                            direction = "row",
-                            align = "center",
-                            gap = 4,
-                        },
-                        children = {
-                            {
-                                id = "build-color-coral",
-                                kind = "button",
-                                text = "C",
-                                action = "build.color.coral",
-                                layout = { width = 40, height = 44 },
-                                style = { background = "#F47765FF", foreground = "#102A34FF", cornerRadius = 14, fontSize = 14, textAlign = "center" },
-                            },
-                            {
-                                id = "build-color-butter",
-                                kind = "button",
-                                text = "B",
-                                action = "build.color.butter",
-                                layout = { width = 40, height = 44 },
-                                style = { background = "#F6D67AFF", foreground = "#102A34FF", cornerRadius = 14, fontSize = 14, textAlign = "center" },
-                            },
-                            {
-                                id = "build-color-periwinkle",
-                                kind = "button",
-                                text = "P",
-                                action = "build.color.periwinkle",
-                                layout = { width = 40, height = 44 },
-                                style = { background = "#A7B8F2FF", foreground = "#102A34FF", cornerRadius = 14, fontSize = 14, textAlign = "center" },
-                            },
-                            {
-                                id = "build-color-ink",
-                                kind = "button",
-                                text = "I",
-                                action = "build.color.ink",
-                                layout = { width = 40, height = 44 },
-                                style = { background = "#20333CFF", foreground = "#EDF0E5FF", cornerRadius = 14, fontSize = 14, textAlign = "center" },
-                            },
-                            {
-                                id = "build-color-paper",
-                                kind = "button",
-                                text = "W",
-                                action = "build.color.paper",
-                                layout = { width = 40, height = 44 },
-                                style = { background = "#EDF0E5FF", foreground = "#102A34FF", cornerRadius = 14, fontSize = 14, textAlign = "center" },
-                            },
-                        },
-                    },
-                    {
-                        id = "build-menu-footer",
-                        kind = "stack",
-                        layout = {
-                            width = "fill",
-                            height = 50,
-                            direction = "row",
-                            align = "center",
-                            gap = 6,
-                        },
-                        children = {
-                            {
-                                id = "build-save",
-                                kind = "button",
-                                icon = "save",
-                                text = "SAVE",
-                                action = "build.save",
-                                layout = { width = "fill", height = 50 },
-                                style = control_style("#FFFFFF18"),
-                            },
-                            {
-                                id = "build-return",
-                                kind = "button",
-                                icon = "close",
-                                text = "EXIT",
-                                action = "build.return",
-                                layout = { width = "fill", height = 50 },
-                                style = control_style("#FFFFFF18"),
-                            },
+                            color_choice("coral", "#EF725FFF", "#F7F8EEFF", true),
+                            color_choice("butter", "#F3CD6DFF", "#10212AFF", false),
+                            color_choice("periwinkle", "#91A8EEFF", "#10212AFF", false),
+                            color_choice("ink", "#203B46FF", "#F7F8EEFF", false),
+                            color_choice("paper", "#F7F3E8FF", "#10212AFF", false),
                         },
                     },
                 },
             },
 
-            -- The only persistent bottom-center controls: place, rotate, remove.
             {
                 id = "build-context",
                 kind = "panel",
                 layout = {
                     region = "bottomCenter",
                     width = "auto",
-                    height = 56,
-                    padding = 4,
+                    height = 68,
+                    padding = 5,
                     direction = "row",
                     align = "center",
-                    gap = 6,
+                    gap = 8,
                 },
                 style = {
-                    background = "#102A34D9",
-                    borderColor = "#C9E0DE55",
-                    borderWidth = 1,
-                    cornerRadius = 28,
+                    background = "#091A22E8",
+                    borderColor = "#EAF7F266",
+                    borderWidth = 2,
+                    cornerRadius = 24,
                 },
                 children = {
                     {
                         id = "build-place",
                         kind = "button",
-                        icon = "plus",
+                        icon = "place",
                         action = "build.place",
-                        layout = { width = 48, height = 48 },
-                        style = control_style("#0A86E6FF"),
+                        layout = { width = 58, height = 58 },
+                        style = GameUIStyles.control_style("#078CF0FF", "#078CF0FF", "#FFFFFFFF", 18),
                     },
                     {
                         id = "build-rotate",
                         kind = "button",
                         icon = "rotate",
                         action = "build.rotate",
-                        layout = { width = 48, height = 48 },
-                        style = control_style("#FFFFFF18"),
+                        layout = { width = 58, height = 58 },
+                        style = GameUIStyles.control_style("#274552FF", "#078CF0FF", "#F7F8EEFF", 18),
                     },
                     {
                         id = "build-remove",
                         kind = "button",
                         icon = "trash",
                         action = "build.remove",
-                        layout = { width = 48, height = 48 },
-                        style = control_style("#FFFFFF18", "#F47765FF"),
+                        layout = { width = 58, height = 58 },
+                        style = GameUIStyles.control_style("#D9564CFF", "#EF6657FF", "#FFFFFFFF", 18),
                     },
                 },
             },
@@ -255,16 +195,11 @@ function GameUIDocument.create()
                 id = "player-joystick",
                 kind = "joystick",
                 action = "player.move",
-                layout = {
-                    anchor = "bottomLeft",
-                    width = 120,
-                    height = 120,
-                    offset = { 20, -24 },
-                },
+                layout = { anchor = "bottomLeft", width = 120, height = 120, offset = { 20, -24 } },
                 style = {
-                    background = "#102A34C9",
+                    background = "#091A22C9",
                     borderColor = "#D6E8E455",
-                    borderWidth = 1,
+                    borderWidth = 2,
                     cornerRadius = 60,
                     accent = "#EDF0E5FF",
                 },
@@ -274,40 +209,16 @@ function GameUIDocument.create()
                 kind = "button",
                 text = "JUMP",
                 action = "player.jump",
-                layout = {
-                    anchor = "bottomRight",
-                    width = 86,
-                    height = 44,
-                    offset = { -22, -84 },
-                },
-                style = {
-                    background = "#102A34A8",
-                    borderColor = "#D6E8E455",
-                    borderWidth = 1,
-                    cornerRadius = 14,
-                    textAlign = "center",
-                    fontSize = 11,
-                },
+                layout = { anchor = "bottomRight", width = 86, height = 44, offset = { -22, -84 } },
+                style = GameUIStyles.control_style("#102D3AE8", "#078CF0FF", "#F7F8EEFF", 14),
             },
             {
                 id = "player-run",
                 kind = "button",
                 text = "RUN",
                 action = "player.run",
-                layout = {
-                    anchor = "bottomRight",
-                    width = 86,
-                    height = 44,
-                    offset = { -22, -30 },
-                },
-                style = {
-                    background = "#102A34A8",
-                    borderColor = "#D6E8E455",
-                    borderWidth = 1,
-                    cornerRadius = 14,
-                    textAlign = "center",
-                    fontSize = 11,
-                },
+                layout = { anchor = "bottomRight", width = 86, height = 44, offset = { -22, -30 } },
+                style = GameUIStyles.control_style("#102D3AE8", "#078CF0FF", "#F7F8EEFF", 14),
             },
         },
     }

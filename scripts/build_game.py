@@ -29,6 +29,11 @@ def source_file(path: Path, source_root: Path, stack: tuple[Path, ...]) -> str:
 
     lines: list[str] = []
     for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
+        if stack and re.match(r"^return(?:\s|$)", line):
+            raise ValueError(
+                f"{relative}:{line_number}: included files share the entry chunk "
+                "and cannot contain a top-level return"
+            )
         match = INCLUDE_RE.match(line)
         if not match:
             lines.append(line)

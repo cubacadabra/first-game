@@ -12,9 +12,9 @@ local FirstGame = {}
 
 function FirstGame.on_start(api)
     api.lobby:set_status("Step onto BUILD TOGETHER to start a shared build")
-    api.ui.selected_shape = "CUBE"
-    api.ui.selected_color = "CORAL"
-    api.ui.menu_open = false
+    api.ui.selected_shape = "cube"
+    api.ui.selected_color = "coral"
+    api.ui.open_popover = nil
     api.ui:set_document(GameUIDocument.create())
 end
 
