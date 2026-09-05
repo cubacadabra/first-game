@@ -1,7 +1,7 @@
 # Cubacadabra First Game
 
 This repository is the portable game source package. It contains content data
-and Luau rules, but no web, iOS, or Android code. `scripts/build_game.sh`
+and Luau rules, but no web, iOS, or Android code. The shared `tools` repository
 turns it into the runtime package consumed by all clients:
 
 - `web` builds it into `public/games/first-game/` before each dev or production
@@ -44,12 +44,12 @@ filesystem or a Luau `require` implementation. Pass `--zip path` when an
 exportable archive is useful:
 
 ```sh
-./scripts/build_game.sh --output build/package --zip build/first-game-v1.zip
+PYTHONPATH=../tools/src python3 -m cubacadabra build-game . \
+  --output build/package --zip build/first-game-v1.zip
 ```
 
-The shell script is a compatibility entrypoint for the shared CLI in the
-sibling `tools` repository. New game repositories can use the same command
-directly, for example `cubacadabra build-game ../second-game`.
+New game repositories use the same command directly; the builder does not live
+inside an individual game repository.
 
 The manifest starts players in the `lobby`. `BUILD TOGETHER` is the first live
 launch pad; the other two remain visible as muted `COMING SOON` destinations.
@@ -74,8 +74,8 @@ appropriate.
 
 There is no server to run in this repository. Start the dependent services
 from [backend/README.md](../backend/README.md) and
-[web/README.md](../web/README.md). From `web/`, `npm run sync:game` builds the
-current sibling source into `web/public/games/first-game/`; the normal
+[web/README.md](../web/README.md). From `web/`, `npm run sync:games` builds the
+sibling game sources into `web/public/games/`; the normal
 `npm run dev` and `npm run build` commands run that sync automatically.
 
 For a LAN session, use `npm run dev:lan` in `backend/` and start
