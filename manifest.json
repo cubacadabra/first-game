@@ -34,7 +34,14 @@
       "skin": "#e8ae86",
       "shirt": "#2d6663",
       "pants": "#536a90",
-      "shoes": "#293a43"
+      "shoes": "#293a43",
+      "character": {
+        "version": 1,
+        "body": "cuba:person.v1",
+        "face": "happy",
+        "outfit": "cuba:everyday-hoodie.v1",
+        "revision": 1
+      }
     },
     "npcs": [
       { "skin": "#f0b18a", "shirt": "#e76f51", "pants": "#355070", "shoes": "#293a43" },
