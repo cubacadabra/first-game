@@ -37,7 +37,7 @@ for the native adapter.
 - `src/ui/` — game-owned UI document, styles, and actions
 - `assets/` — optional shared assets, when the game needs them
 
-The builder writes a generated package directory containing `manifest.json`,
+The shared `cubacadabra build-game` command writes a generated package directory containing `manifest.json`,
 `game.luau`, `package.json`, and optional assets. `game.luau` is a single
 runtime entry script assembled from the source includes; clients do not need a
 filesystem or a Luau `require` implementation. Pass `--zip path` when an
@@ -46,6 +46,10 @@ exportable archive is useful:
 ```sh
 ./scripts/build_game.sh --output build/package --zip build/first-game-v1.zip
 ```
+
+The shell script is a compatibility entrypoint for the shared CLI in the
+sibling `tools` repository. New game repositories can use the same command
+directly, for example `cubacadabra build-game ../second-game`.
 
 The manifest starts players in the `lobby`. `BUILD TOGETHER` is the first live
 launch pad; the other two remain visible as muted `COMING SOON` destinations.
