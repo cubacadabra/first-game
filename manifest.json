@@ -56,11 +56,6 @@
       { "position": [42, 15, 12], "scale": 0.95 }
     ]
   },
-  "settingsRoom": {
-    "worldId": "settings",
-    "usernameStationPosition": [0, 0, -5.6],
-    "interactionRadius": 4.2
-  },
   "launchPads": [
     {
       "id": "build-together",
@@ -102,27 +97,7 @@
     { "position": [13, 0.5, -17], "size": [1, 1, 1], "color": "ink", "outline": false },
     { "position": [-22, 0.35, -34], "size": [1.2, 0.7, 1.2], "color": "coral", "outline": false },
     { "position": [24, 0.5, -39], "size": [1.5, 1, 1.5], "color": "butter", "outline": false },
-    { "position": [-28, 0.5, 18], "size": [1.5, 1, 1.5], "color": "periwinkle", "outline": false },
-    { "position": [17.8, 2.25, -3.7], "size": [1, 4.5, 1], "color": "ink" },
-    { "position": [22.2, 2.25, -3.7], "size": [1, 4.5, 1], "color": "ink" },
-    { "position": [20, 4.25, -3.7], "size": [3.4, 0.8, 1], "color": "ink" },
-    { "position": [20, 5.2, -3.7], "size": [4.8, 1.1, 0.5], "color": "coral" },
-    { "position": [20, 3.7, -3.12], "size": [0.72, 0.72, 0.22], "color": "butter", "outline": false },
-    { "position": [20, 4.2, -3.12], "size": [0.24, 0.32, 0.22], "color": "butter", "outline": false },
-    { "position": [20, 3.35, -3.12], "size": [0.24, 0.32, 0.22], "color": "butter", "outline": false },
-    { "position": [19.43, 3.7, -3.12], "size": [0.32, 0.24, 0.22], "color": "butter", "outline": false },
-    { "position": [20.57, 3.7, -3.12], "size": [0.32, 0.24, 0.22], "color": "butter", "outline": false }
-  ],
-  "portals": [
-    {
-      "position": [20, 0, -4.55],
-      "radius": 1.3,
-      "destinationWorld": "settings",
-      "destinationSpawn": [0, 0, 6]
-    }
-  ],
-  "signs": [
-    { "text": "SETTINGS", "position": [20, 5.2, -3.38], "maxWidth": 4.0, "color": "paper" }
+    { "position": [-28, 0.5, 18], "size": [1.5, 1, 1.5], "color": "periwinkle", "outline": false }
   ],
   "worlds": {
     "real-game": {
@@ -169,66 +144,6 @@
         { "position": [-7, 0.75, -10], "size": [2.5, 1.5, 2.5], "color": "butter" },
         { "position": [8, 1.5, -13], "size": [3, 3, 3], "color": "periwinkle" },
         { "position": [0, 0.5, 1], "size": [1, 1, 1], "color": "ink", "outline": false }
-      ]
-    },
-    "settings": {
-      "scene": {
-        "eyebrow": "private room",
-        "title": "Settings",
-        "description": "Make this world yours.",
-        "maxPlayers": 1
-      },
-      "palette": {
-        "sky": "#6f8f94",
-        "ground": "#d8cbb5",
-        "groundEdge": "#725d52",
-        "grid": "#b6a990",
-        "coral": "#ed725b",
-        "butter": "#f2c764",
-        "periwinkle": "#7898dc",
-        "ink": "#264b4b",
-        "paper": "#f6f1e7"
-      },
-      "world": {
-        "groundSize": 24,
-        "gridSize": 20,
-        "gridDivisions": 10,
-        "spawn": [0, 0, 6],
-        "showSpawnPad": false,
-        "clouds": []
-      },
-      "launchPads": [],
-      "blocks": [
-        { "position": [-9.5, 3, 0], "size": [0.5, 6, 20], "color": "ink" },
-        { "position": [9.5, 3, 0], "size": [0.5, 6, 20], "color": "ink" },
-        { "position": [0, 3, -10], "size": [19.5, 6, 0.5], "color": "ink" },
-        { "position": [-5.75, 3, 10], "size": [7.5, 6, 0.5], "color": "ink" },
-        { "position": [5.75, 3, 10], "size": [7.5, 6, 0.5], "color": "ink" },
-        { "position": [0, 5.15, 10], "size": [4, 1.7, 0.5], "color": "ink" },
-        { "position": [0, 5.65, -9.55], "size": [12, 0.25, 0.25], "color": "butter", "outline": false },
-        { "position": [0, 2.7, -9.55], "size": [10.5, 4.3, 0.25], "color": "paper" },
-        { "position": [0, 0.48, -6.35], "size": [7.5, 0.7, 2.2], "color": "coral" },
-        { "position": [-7.5, 1.25, -5], "size": [1.6, 2.5, 4], "color": "periwinkle" },
-        { "position": [7.5, 1.25, -5], "size": [1.6, 2.5, 4], "color": "butter" },
-        { "position": [-7.5, 0.75, 4.5], "size": [1.2, 1.5, 3.2], "color": "coral" },
-        { "position": [7.5, 0.75, 4.5], "size": [1.2, 1.5, 3.2], "color": "periwinkle" },
-        { "position": [0, 4.15, 9.62], "size": [3.2, 0.8, 0.2], "color": "butter" }
-      ],
-      "portals": [
-        {
-          "position": [0, 0, 9.35],
-          "radius": 1.35,
-          "destinationWorld": "lobby",
-          "destinationSpawn": [20, 0, -1.7],
-          "destinationYaw": 3.1415927
-        }
-      ],
-      "signs": [
-        { "text": "SETTINGS", "position": [0, 5.55, -9.35], "maxWidth": 8, "color": "paper" },
-        { "text": "USERNAME", "position": [0, 3.65, -9.36], "maxWidth": 4.8, "color": "ink" },
-        { "text": "{{username}}", "position": [0, 2.55, -9.36], "maxWidth": 8.5, "color": "coral" },
-        { "text": "TAP OR PRESS E TO EDIT", "position": [0, 1.45, -9.36], "maxWidth": 8.4, "color": "ink" },
-        { "text": "LOBBY", "position": [0, 4.15, 9.49], "yaw": 3.1415927, "maxWidth": 2.7, "color": "ink" }
       ]
     }
   }
