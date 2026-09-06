@@ -57,6 +57,21 @@ The backend owns the synchronized countdown and cohort selection. Players then
 enter a shared build round in `real-game`, where the web client can place,
 rotate, remove, recolor, save, and tour blocks together.
 
+Lobbies are optional. Set `"lobby": false` to route players directly to the
+manifest's `startWorld`; when `startWorld` is still `"lobby"`, the launch
+destination is used instead. A game can also disable the lobby from Luau:
+
+```luau
+function Game.on_start(api)
+    api.lobby:set_enabled(false)
+end
+```
+
+Direct games connect to the selected experience world immediately. The backend
+continues filling an available instance up to its capacity before creating the
+next one, so direct mode has the same scaling behavior without guaranteeing
+that two friends land together.
+
 The important package URLs on a running web host remain:
 
 ```text
