@@ -1,8 +1,5 @@
 -- Portable entry point for the first-game package.
---
--- The build step expands these includes into one sandboxed Luau chunk for the
--- shared Rust runtime. Keeping the includes explicit makes load order visible
--- without requiring a runtime filesystem or module loader.
+-- The build step expands these includes into one sandboxed Luau chunk.
 
 -- @include "ui/styles.luau"
 -- @include "ui/document.luau"
@@ -10,22 +7,109 @@
 
 local FirstGame = {}
 
+local charm_order = { "spark", "splash", "sprout" }
+local charm_names = {
+    spark = "Spark",
+    splash = "Splash",
+    sprout = "Sprout",
+}
+local charm_hints = {
+    spark = "A tiny sunburst for bright ideas.",
+    splash = "A giggle-powered wave spell.",
+    sprout = "A friendly charm for growing courage.",
+}
+
+local learned = {}
+local cast = {}
+local completed = 0
+local celebration_seconds = 0
+local message = "Find the three beginner charms."
+
+local function count(values)
+    local total = 0
+    for _, value in pairs(values) do
+        if value then
+            total = total + 1
+        end
+    end
+    return total
+end
+
+local function all_learned()
+    return count(learned) == #charm_order
+end
+
+local function all_cast()
+    return all_learned() and count(cast) == #charm_order
+end
+
+local function update_hud(api)
+    local state = api.interactions:get_state()
+    local charms_learned = count(learned)
+    local circle = state.zones["wand-circle"]
+    local players = circle and circle.players or 1
+
+    local status
+    local help
+    if celebration_seconds > 0 then
+        status = "RAINBOW BURST!"
+        help = string.format("Amazing teamwork! Next round in %.1fs.", celebration_seconds)
+    elseif not all_learned() then
+        status = string.format("%d/3 charms learned", charms_learned)
+        help = message
+    elseif not (circle and circle.inside) then
+        status = "All charms learned!"
+        help = "Run to the Wand Circle and get ready to cast."
+    else
+        status = string.format("Wand Circle • %d wizard%s", players, players == 1 and "" or "s")
+        help = message
+    end
+
+    api.ui:set_text("school-status", status)
+    api.ui:set_text("school-help-text", help)
+    api.ui:set_text("score-value", tostring(completed))
+    api.ui:set_visible("charm-dock", celebration_seconds <= 0 and circle ~= nil and circle.inside and all_learned())
+
+    for _, id in ipairs(charm_order) do
+        api.ui:set_visible("charm-" .. id, learned[id] == true and cast[id] ~= true)
+        api.ui:set_checked("charm-" .. id, cast[id] == true)
+    end
+end
+
 function FirstGame.on_start(api)
-    api.lobby:set_status("Step onto BUILD TOGETHER to start a shared build")
-    api.ui.selected_shape = "cube"
-    api.ui.selected_color = "coral"
-    api.ui.open_popover = nil
+    api.lobby:set_status("Learn three charms and make a rainbow burst!")
     api.ui:set_document(GameUIDocument.create())
+    update_hud(api)
 end
 
-function FirstGame.on_ui_event(api, event)
-    GameUIActions.handle(api, event)
+function FirstGame.on_interaction(_api, event)
+    if event.phase ~= "enter" or learned[event.id] or charm_names[event.id] == nil then
+        return
+    end
+    learned[event.id] = true
+    message = charm_names[event.id] .. " learned! " .. charm_hints[event.id]
 end
 
-function FirstGame.on_tick(_api, _delta_seconds)
-    -- Game-specific rules belong here as the first game grows.
-    -- Movement, collision, launch-pad timing, and multiplayer build state
-    -- remain platform services.
+function FirstGame.on_ui_event(_api, event)
+    GameUIActions.handle(_api, event, learned, cast, function(text)
+        message = text
+    end)
+end
+
+function FirstGame.on_tick(api, delta_seconds)
+    if celebration_seconds > 0 then
+        celebration_seconds = celebration_seconds - delta_seconds
+        if celebration_seconds <= 0 then
+            learned = {}
+            cast = {}
+            message = "A new round! Find the three beginner charms."
+        end
+    elseif all_cast() then
+        completed = completed + 1
+        celebration_seconds = 4.5
+        message = "You made a rainbow burst with your friends!"
+    end
+    update_hud(api)
 end
 
 return FirstGame

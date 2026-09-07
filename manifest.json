@@ -1,157 +1,140 @@
 {
   "id": "first-game",
-  "version": 1,
-  "sdkVersion": "0.1",
+  "version": 3,
+  "sdkVersion": "0.3",
   "package": {
-    "formatVersion": 1,
+    "formatVersion": 3,
     "entry": "game.luau"
   },
-  "displayName": "First Game",
+  "displayName": "First Game: Spellbound Schoolyard",
   "lobby": false,
   "startWorld": "lobby",
   "launch": {
-    "destinationWorld": "real-game",
+    "destinationWorld": "schoolyard",
     "authoritative": true
   },
   "scene": {
     "eyebrow": "cubacadabra",
-    "title": "Lobby",
-    "description": "Choose BUILD TOGETHER to make something with the people here.",
+    "title": "Spellbound Schoolyard",
+    "description": "Learn three beginner charms, then make a rainbow burst together.",
     "maxPlayers": 18
   },
   "palette": {
-    "sky": "#9ab9be",
-    "ground": "#8caf83",
-    "groundEdge": "#5f806d",
-    "grid": "#71977e",
-    "coral": "#ed725b",
-    "butter": "#f2c764",
-    "periwinkle": "#7898dc",
-    "ink": "#264b4b",
-    "paper": "#f6f1e7"
+    "sky": "#8EC5FF",
+    "ground": "#A8D98B",
+    "groundEdge": "#4F8C73",
+    "grid": "#C9E7B2",
+    "spark": "#FFB84D",
+    "splash": "#50C9E8",
+    "sprout": "#75D68A",
+    "rainbow": "#FF8BB7",
+    "ink": "#17304A",
+    "paper": "#FFFDF4"
   },
   "avatars": {
     "player": {
-      "skin": "#e8ae86",
-      "shirt": "#2d6663",
-      "pants": "#536a90",
-      "shoes": "#293a43",
+      "skin": "#E8AE86",
+      "shirt": "#6356B8",
+      "pants": "#315A8A",
+      "shoes": "#17304A",
       "character": {
         "version": 1,
         "body": "cuba:person.v1",
         "face": "happy",
         "outfit": "cuba:everyday-hoodie.v1",
-        "revision": 1
+        "equipment": {
+          "hat": "cuba:star-cap.v1"
+        },
+        "colors": {
+          "primary": "#6356B8",
+          "secondary": "#315A8A",
+          "sole": "#17304A"
+        },
+        "revision": 3
       }
     },
-    "npcs": [
-      { "skin": "#f0b18a", "shirt": "#e76f51", "pants": "#355070", "shoes": "#293a43" },
-      { "skin": "#d99770", "shirt": "#5f8f78", "pants": "#3e5974", "shoes": "#293a43" },
-      { "skin": "#f4c39f", "shirt": "#748bd2", "pants": "#43515e", "shoes": "#293a43" },
-      { "skin": "#c98263", "shirt": "#f0b54d", "pants": "#385c62", "shoes": "#293a43" },
-      { "skin": "#e4a77b", "shirt": "#b276a9", "pants": "#4b5e80", "shoes": "#293a43" },
-      { "skin": "#f1c29b", "shirt": "#3f8884", "pants": "#414b5b", "shoes": "#293a43" }
-    ]
+    "npcs": []
   },
   "world": {
-    "groundSize": 120,
-    "gridSize": 112,
-    "gridDivisions": 28,
-    "spawn": [0, 0, 6.25],
+    "groundSize": 58,
+    "gridSize": 52,
+    "gridDivisions": 26,
+    "spawn": [0, 0, 16],
+    "showSpawnPad": false,
     "clouds": [
-      { "position": [-18, 18, -55], "scale": 1.35 },
-      { "position": [24, 22, -72], "scale": 1.8 },
-      { "position": [42, 15, 12], "scale": 0.95 }
+      { "position": [-18, 14, -28], "scale": 1.2 },
+      { "position": [20, 17, -35], "scale": 1.6 },
+      { "position": [28, 11, 14], "scale": 0.8 }
     ]
   },
-  "launchPads": [
-    {
-      "id": "build-together",
-      "code": "GATE 01",
-      "label": "BUILD TOGETHER",
-      "position": [-10, 0, -3],
-      "color": "#ed725b",
-      "radius": 2.7,
-      "countdown": 8,
-      "enabled": true
-    },
-    {
-      "id": "deep-dive",
-      "code": "GATE 02",
-      "label": "DEEP DIVE",
-      "position": [0, 0, -7],
-      "color": "#f2c764",
-      "radius": 2.7,
-      "countdown": 8,
-      "enabled": false,
-      "availabilityLabel": "COMING SOON"
-    },
-    {
-      "id": "sky-run",
-      "code": "GATE 03",
-      "label": "SKY RUN",
-      "position": [10, 0, -3],
-      "color": "#7898dc",
-      "radius": 2.7,
-      "countdown": 8,
-      "enabled": false,
-      "availabilityLabel": "COMING SOON"
-    }
-  ],
-  "blocks": [
-    { "position": [0.15, 1.35, -13.5], "size": [2.8, 2.7, 2.8], "color": "coral" },
-    { "position": [-8.1, 0.8, -22], "size": [3.8, 1.6, 3.8], "color": "butter" },
-    { "position": [8.4, 1.5, -27], "size": [2.2, 3, 2.2], "color": "periwinkle" },
-    { "position": [13, 0.5, -17], "size": [1, 1, 1], "color": "ink", "outline": false },
-    { "position": [-22, 0.35, -34], "size": [1.2, 0.7, 1.2], "color": "coral", "outline": false },
-    { "position": [24, 0.5, -39], "size": [1.5, 1, 1.5], "color": "butter", "outline": false },
-    { "position": [-28, 0.5, 18], "size": [1.5, 1, 1.5], "color": "periwinkle", "outline": false }
-  ],
+  "launchPads": [],
+  "blocks": [],
   "worlds": {
-    "real-game": {
-      "scene": {
-        "eyebrow": "first game",
-        "title": "The Clearing",
-        "description": "Build together, then take a walk through what you made.",
-        "maxPlayers": 18
-      },
+    "schoolyard": {
       "palette": {
-        "sky": "#9ab9be",
-        "ground": "#536e70",
-        "groundEdge": "#2f4d52",
-        "grid": "#78999a",
-        "coral": "#e98268",
-        "butter": "#e6c66f",
-        "periwinkle": "#99afe5",
-        "ink": "#172f38",
-        "paper": "#edf0e5"
+        "sky": "#8EC5FF",
+        "ground": "#A8D98B",
+        "groundEdge": "#4F8C73",
+        "grid": "#C9E7B2",
+        "spark": "#FFB84D",
+        "splash": "#50C9E8",
+        "sprout": "#75D68A",
+        "rainbow": "#FF8BB7",
+        "ink": "#17304A",
+        "paper": "#FFFDF4"
       },
       "world": {
-        "groundSize": 92,
-        "gridSize": 84,
-        "gridDivisions": 21,
-        "spawn": [0, 0, 8],
+        "groundSize": 58,
+        "gridSize": 52,
+        "gridDivisions": 26,
+        "spawn": [0, 0, 16],
         "showSpawnPad": false,
-        "clouds": []
-      },
-      "launchPads": [],
-      "buildRound": {
-        "durationSeconds": 360,
-        "maxBlocks": 180,
-        "gridSize": 1,
-        "prompts": [
-          "Build a tiny home for a very large animal.",
-          "Make a place where you would want to wake up.",
-          "Build a bridge to somewhere impossible.",
-          "Create a monument to your favorite color."
-        ],
-        "colors": ["coral", "butter", "periwinkle", "ink", "paper"]
+        "clouds": [
+          { "position": [-18, 14, -28], "scale": 1.2 },
+          { "position": [20, 17, -35], "scale": 1.6 },
+          { "position": [28, 11, 14], "scale": 0.8 }
+        ]
       },
       "blocks": [
-        { "position": [0, 1, -7], "size": [4, 2, 4], "color": "coral" },
-        { "position": [-7, 0.75, -10], "size": [2.5, 1.5, 2.5], "color": "butter" },
-        { "position": [8, 1.5, -13], "size": [3, 3, 3], "color": "periwinkle" },
-        { "position": [0, 0.5, 1], "size": [1, 1, 1], "color": "ink", "outline": false }
+        { "position": [-9, 0.55, -15], "size": [3.6, 1.1, 3.6], "color": "spark" },
+        { "position": [9, 0.55, -15], "size": [3.6, 1.1, 3.6], "color": "splash" },
+        { "position": [-18, 0.4, 1], "size": [2.5, 0.8, 2.5], "color": "sprout" },
+        { "position": [18, 0.4, 1], "size": [2.5, 0.8, 2.5], "color": "rainbow" },
+        { "position": [0, 0.35, -29], "size": [8, 0.7, 1.5], "color": "ink", "outline": false }
+      ],
+      "interactions": [
+        {
+          "id": "spark",
+          "kind": "zone",
+          "label": "SPARK",
+          "position": [-15, 0, -8],
+          "radius": 2.7,
+          "color": "spark"
+        },
+        {
+          "id": "splash",
+          "kind": "zone",
+          "label": "SPLASH",
+          "position": [15, 0, -8],
+          "radius": 2.7,
+          "color": "splash"
+        },
+        {
+          "id": "sprout",
+          "kind": "zone",
+          "label": "SPROUT",
+          "position": [0, 0, -22],
+          "radius": 2.7,
+          "color": "sprout"
+        },
+        {
+          "id": "wand-circle",
+          "kind": "zone",
+          "label": "WAND CIRCLE",
+          "position": [0, 0, 0],
+          "radius": 4.2,
+          "color": "rainbow"
+        }
       ]
     }
   }

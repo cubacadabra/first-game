@@ -1,135 +1,89 @@
 # Cubacadabra First Game
 
-This repository is the portable game source package. It contains content data
-and Luau rules, but no web, iOS, or Android code. The shared `tools` repository
-turns it into the runtime package consumed by all clients:
+This repository is the portable source package for the first example game.
+It contains the manifest, world content, and Luau rules. The shared tools
+repository builds it into the package consumed by the web, iOS, Android, and
+Rust clients.
 
-- `web` builds it into `public/games/first-game/` before each dev or production
-  build and serves the generated package in the browser.
-- `ios_app` and `android_app` build the same generated package into their app
-  bundles, then refresh a validated copy from the web host for the next launch.
-- `rust` parses the manifest and hosts the generated Luau entry script for
-  native and browser clients. Native builds use `mlua`; the browser build uses
-  the pure-Rust `luaur-rt` runtime behind the same host API.
+The repositories are expected to be sibling directories:
 
-The repositories are expected to be sibling directories. The backend supplies
-multiplayer world sockets, while this package supplies the world description
-and game-specific rules:
-
-```text
-backend/       multiplayer Worker and one Durable Object per world
+~~~text
+backend/       multiplayer Worker and world sessions
 first-game/    this package
 rust/          platform-neutral simulation and renderer
 web/           browser shell and package host
 ios_app/       Swift platform adapter
-```
+android_app/  Kotlin platform adapter
+~~~
 
-When starting here, read [web/README.md](../web/README.md) next to see how the
-package is loaded and run. Then read [rust/README.md](../rust/README.md) for
-the runtime that interprets its data, or [ios_app/README.md](../ios_app/README.md)
-for the native adapter.
+## MVP: Spellbound Schoolyard
 
-## Source and package layout
+Players arrive in a sunny schoolyard and discover three beginner charms:
+Spark, Splash, and Sprout. Walking into a glowing interaction zone teaches the
+charm. Once all three are learned, players gather in the Wand Circle and tap
+each charm to make a rainbow burst.
 
-- `manifest.json` — declarative world content and presentation-independent
-  settings; it remains the package metadata source of truth
-- `src/main.luau` — portable lifecycle entry point
-- `src/ui/` — game-owned UI document, styles, and actions
-- `assets/` — optional shared assets, when the game needs them
+A solo player can complete the loop. Two or three players can split up to find
+charms and then celebrate together in the circle. The round resets after a
+short celebration, making the game easy to replay. There are no NPCs or dark
+themes in this MVP.
 
-The shared `cubacadabra build-game` command writes a generated package directory containing `manifest.json`,
-`game.luau`, `package.json`, and optional assets. `game.luau` is a single
-runtime entry script assembled from the source includes; clients do not need a
-filesystem or a Luau `require` implementation. Pass `--zip path` when an
-exportable archive is useful:
+Future versions can add more kid-friendly charms, spell combinations, wand
+trails, badges, time trials, and friendly teachers or creatures.
 
-```sh
+## Generic game contract
+
+The manifest deliberately uses generic interactions. Rust does not know what
+a spell, schoolyard, or Wand Circle is:
+
+~~~json
+"interactions": [{
+  "id": "spark",
+  "kind": "zone",
+  "label": "SPARK",
+  "position": [-15, 0, -8],
+  "radius": 2.7,
+  "color": "spark"
+}]
+~~~
+
+Rust provides proximity tracking, local enter/exit events, and the number of
+players in each zone. Luau owns the rules and presentation:
+
+~~~luau
+function Game.on_interaction(api, event)
+    -- event.id, event.phase ("enter"/"exit"), event.players
+end
+
+local state = api.interactions:get_state()
+local zone = state.zones["spark"]
+-- zone.inside, zone.nearby, zone.players, zone.kind, zone.label
+~~~
+
+This same API can power doors, checkpoints, treasures, race gates, or any
+other game without adding game-specific Rust types. Backend messaging should
+remain a separate generic contract, so a future game can publish its own
+events and state without teaching the platform about its theme.
+
+## Source and build
+
+- manifest.json — package metadata and declarative world content
+- src/main.luau — portable lifecycle entry point
+- src/ui/ — game-owned UI document, styles, and actions
+
+Build the package from this directory with the shared tools:
+
+~~~sh
 PYTHONPATH=../tools/src python3 -m cubacadabra build-game . \
   --output build/package --zip build/first-game-v1.zip
-```
+~~~
 
-New game repositories use the same command directly; the builder does not live
-inside an individual game repository.
+The generated package contains manifest.json, game.luau, package.json, and
+optional assets. It is the runtime distribution used by all clients.
 
-The manifest starts players in the `lobby`. `BUILD TOGETHER` is the first live
-launch pad; the other two remain visible as muted `COMING SOON` destinations.
-The backend owns the synchronized countdown and cohort selection. Players then
-enter a shared build round in `real-game`, where the web client can place,
-rotate, remove, recolor, save, and tour blocks together.
+Lobbies are optional. Set "lobby": false to route players directly to the
+manifest's start world or its launch destination. The current game uses direct
+start so players can begin playing immediately.
 
-Lobbies are optional. Set `"lobby": false` to route players directly to the
-manifest's `startWorld`; when `startWorld` is still `"lobby"`, the launch
-destination is used instead. A game can also disable the lobby from Luau:
-
-```luau
-function Game.on_start(api)
-    api.lobby:set_enabled(false)
-end
-```
-
-Direct games connect to the selected experience world immediately. The backend
-continues filling an available instance up to its capacity before creating the
-next one, so direct mode has the same scaling behavior without guaranteeing
-that two friends land together.
-
-The important package URLs on a running web host remain:
-
-```text
-http://<web-host>:5173/games/first-game/manifest.json
-http://<web-host>:5173/games/first-game/game.luau
-```
-
-Keep the manifest compatible with the loaders in `web/src/game/`,
-`ios_app/cubacadabra/GamePackage.swift`, and
-`android_app/app/src/main/java/dev/andrewarrow/cubacadabra/game/GamePackage.kt`.
-If you change a field, update all loaders and the Rust package model where
-appropriate.
-
-## Local development
-
-There is no server to run in this repository. Start the dependent services
-from [backend/README.md](../backend/README.md) and
-[web/README.md](../web/README.md). From `web/`, `npm run sync:games` builds the
-sibling game sources into `web/public/games/`; the normal
-`npm run dev` and `npm run build` commands run that sync automatically.
-
-For a LAN session, use `npm run dev:lan` in `backend/` and start
-`web/` with `VITE_BACKEND_WS_URL=ws://<mac-lan-ip>:8787 npm run dev:lan`.
-For iOS, also set the package and backend URLs in the Xcode scheme as described
-in [ios_app/README.md](../ios_app/README.md).
-
-For the iOS app, start the backend and web server first, then run the Debug
-scheme in Xcode. The app reads the package from the web server and connects to
-the backend's `lobby` socket. A physical device uses the Mac's LAN address in
-the Xcode environment variables described in [ios_app/README.md](../ios_app/README.md).
-
-## Production
-
-The package is part of the web deployment, not a separate package service. The
-web deployment publishes it under:
-
-```text
-https://cubacadabra.com/games/first-game/
-```
-
-The production iOS build defaults to that package URL. A local web build also
-uses this package but connects to the production Worker when built with Vite's
-production commands; see [web/README.md](../web/README.md) for the exact
-commands and endpoint override. The web deployment's package sync runs during
-`npm run build`, so deploy from `web/` after changing this repository.
-
-## Distribution guidance
-
-The generated directory is the canonical runtime distribution because all
-three clients can stream its small files and static web hosting can serve it
-without an archive runtime. A ZIP is available for exports, CI artifacts, or a
-future CDN cache, but it is not required at runtime. Production remote updates
-should eventually add a signed package metadata file and signature verification
-before accepting downloaded Luau rules; the current clients validate size,
-encoding, JSON, and world references before caching.
-
-## Where to look next
-
-- [web/README.md](../web/README.md) — how this package is synced and rendered
-- [rust/README.md](../rust/README.md) — simulation, rendering, and package host
-- [ios_app/README.md](../ios_app/README.md) — native package loading and input
+Read ../web/README.md for package syncing and ../rust/README.md for the runtime
+and host API.

@@ -1,200 +1,129 @@
 local GameUIDocument = {}
 
-local function shape_trigger(id, icon, visible)
+local function charm_button(id, label, color)
     return {
-        id = id,
+        id = "charm-" .. id,
         kind = "button",
-        icon = icon,
-        action = "build.shape.toggle",
-        visible = visible,
-        visibleIn = { "real-game" },
-        layout = { region = "header", width = 56, height = 56 },
-        style = GameUIStyles.control_style("#102D3AF7", "#078CF0FF"),
-    }
-end
-
-local function color_trigger(id, label, background, foreground, visible)
-    return {
-        id = id,
-        kind = "button",
-        icon = "colorswap",
-        action = "build.color.toggle",
-        visible = visible,
-        visibleIn = { "real-game" },
-        layout = { region = "header", width = 56, height = 56 },
-        style = GameUIStyles.control_style(background, "#078CF0FF", foreground),
-    }
-end
-
-local function shape_choice(id, icon, label, checked)
-    return {
-        id = "build-shape-" .. id,
-        kind = "button",
-        icon = icon,
         text = label,
-        action = "build.shape." .. id,
-        checked = checked,
-        layout = { width = 96, height = 88 },
-        style = GameUIStyles.control_style("#183A48FF", "#078CF0FF", "#F7F8EEFF", 16),
-    }
-end
-
-local function color_choice(id, background, foreground, checked)
-    return {
-        id = "build-color-" .. id,
-        kind = "button",
-        action = "build.color." .. id,
-        checked = checked,
-        layout = { width = 56, height = 56 },
-        style = GameUIStyles.control_style(background, "#078CF0FF", foreground, 18),
+        action = "charm.cast." .. id,
+        visible = false,
+        visibleIn = { "schoolyard" },
+        layout = { width = 112, height = 58 },
+        style = GameUIStyles.charm_style(color),
     }
 end
 
 function GameUIDocument.create()
     return {
         nodes = {
-            shape_trigger("build-shape-trigger-cube", "cube", true),
-            shape_trigger("build-shape-trigger-beam", "beam", false),
-            shape_trigger("build-shape-trigger-slab", "slab", false),
-
-            color_trigger("build-color-trigger-coral", "coral", "#EF725FFF", "#F7F8EEFF", true),
-            color_trigger("build-color-trigger-butter", "butter", "#F3CD6DFF", "#10212AFF", false),
-            color_trigger("build-color-trigger-periwinkle", "periwinkle", "#91A8EEFF", "#10212AFF", false),
-            color_trigger("build-color-trigger-ink", "ink", "#203B46FF", "#F7F8EEFF", false),
-            color_trigger("build-color-trigger-paper", "warm white", "#F7F3E8FF", "#10212AFF", false),
-
-            -- This transparent outside-tap target closes either selector
-            -- without visually obscuring the world.
             {
-                id = "build-popover-catcher",
-                kind = "modal",
-                action = "build.popover.close",
-                blocksInput = true,
-                visible = false,
-                visibleIn = { "real-game" },
-                layout = { width = "fill", height = "fill", ignoreSafeArea = true },
-            },
-            {
-                id = "build-shape-popover",
-                kind = "menu",
-                blocksInput = true,
-                visible = false,
-                visibleIn = { "real-game" },
-                layout = {
-                    anchor = "topLeft",
-                    width = 336,
-                    height = 136,
-                    offset = { 316, 88 },
-                    padding = 12,
-                    direction = "column",
-                    align = "stretch",
-                    gap = 8,
-                },
-                style = GameUIStyles.popover_style(),
-                children = {
-                    {
-                        id = "build-shape-title",
-                        kind = "text",
-                        text = "CHOOSE A SHAPE",
-                        layout = { width = "fill", height = 20 },
-                        style = { fontSize = 15, foreground = "#F7F8EEFF" },
-                    },
-                    {
-                        id = "build-shape-options",
-                        kind = "stack",
-                        layout = { width = "fill", height = 88, direction = "row", align = "center", gap = 10 },
-                        children = {
-                            shape_choice("cube", "cube", "CUBE", true),
-                            shape_choice("beam", "beam", "BEAM", false),
-                            shape_choice("slab", "slab", "SLAB", false),
-                        },
-                    },
-                },
-            },
-            {
-                id = "build-color-popover",
-                kind = "menu",
-                blocksInput = true,
-                visible = false,
-                visibleIn = { "real-game" },
-                layout = {
-                    anchor = "topLeft",
-                    width = 336,
-                    height = 108,
-                    offset = { 380, 88 },
-                    padding = 12,
-                    direction = "column",
-                    align = "stretch",
-                    gap = 8,
-                },
-                style = GameUIStyles.popover_style(),
-                children = {
-                    {
-                        id = "build-color-title",
-                        kind = "text",
-                        text = "CHOOSE A COLOR",
-                        layout = { width = "fill", height = 20 },
-                        style = { fontSize = 15, foreground = "#F7F8EEFF" },
-                    },
-                    {
-                        id = "build-color-options",
-                        kind = "stack",
-                        layout = { width = "fill", height = 56, direction = "row", align = "center", gap = 7 },
-                        children = {
-                            color_choice("coral", "#EF725FFF", "#F7F8EEFF", true),
-                            color_choice("butter", "#F3CD6DFF", "#10212AFF", false),
-                            color_choice("periwinkle", "#91A8EEFF", "#10212AFF", false),
-                            color_choice("ink", "#203B46FF", "#F7F8EEFF", false),
-                            color_choice("paper", "#F7F3E8FF", "#10212AFF", false),
-                        },
-                    },
-                },
-            },
-
-            {
-                id = "build-context",
+                id = "school-header",
                 kind = "panel",
-                visibleIn = { "real-game" },
+                visibleIn = { "schoolyard" },
                 layout = {
-                    region = "bottomCenter",
-                    width = "auto",
-                    height = 68,
-                    padding = 5,
+                    region = "header",
+                    width = 310,
+                    height = 58,
+                    padding = 10,
+                    direction = "column",
+                    align = "stretch",
+                    gap = 2,
+                },
+                style = GameUIStyles.panel_style(),
+                children = {
+                    {
+                        id = "school-kicker",
+                        kind = "text",
+                        text = "SPELLBOUND SCHOOLYARD",
+                        layout = { width = "fill", height = 18 },
+                        style = { fontSize = 12, foreground = GameUIStyles.colors.rainbow },
+                    },
+                    {
+                        id = "school-status",
+                        kind = "text",
+                        text = "Find the three beginner charms.",
+                        layout = { width = "fill", height = 20 },
+                        style = { fontSize = 14, foreground = GameUIStyles.colors.paper },
+                    },
+                },
+            },
+            {
+                id = "school-score",
+                kind = "panel",
+                visibleIn = { "schoolyard" },
+                layout = {
+                    region = "header",
+                    width = 108,
+                    height = 58,
+                    padding = 10,
+                    direction = "column",
+                    align = "center",
+                    gap = 1,
+                },
+                style = GameUIStyles.panel_style(GameUIStyles.colors.inkRaised, 18),
+                children = {
+                    {
+                        id = "score-label",
+                        kind = "text",
+                        text = "BURSTS",
+                        layout = { width = "fill", height = 16 },
+                        style = { fontSize = 11, foreground = GameUIStyles.colors.quiet, textAlign = "center" },
+                    },
+                    {
+                        id = "score-value",
+                        kind = "text",
+                        text = "0",
+                        layout = { width = "fill", height = 23 },
+                        style = { fontSize = 19, foreground = GameUIStyles.colors.rainbow, textAlign = "center" },
+                    },
+                },
+            },
+            {
+                id = "school-help",
+                kind = "panel",
+                visibleIn = { "schoolyard" },
+                layout = {
+                    anchor = "topLeft",
+                    width = 310,
+                    height = 60,
+                    offset = { 18, 82 },
+                    padding = 10,
+                    direction = "column",
+                    align = "stretch",
+                },
+                style = GameUIStyles.panel_style("#17304AE6", 14),
+                children = {
+                    {
+                        id = "school-help-text",
+                        kind = "text",
+                        text = "Walk into a glowing spot to learn its charm.",
+                        layout = { width = "fill", height = "fill" },
+                        style = { fontSize = 13, foreground = GameUIStyles.colors.quiet },
+                    },
+                },
+            },
+            {
+                id = "charm-dock",
+                kind = "panel",
+                visible = false,
+                visibleIn = { "schoolyard" },
+                layout = {
+                    anchor = "top",
+                    width = "90%",
+                    maxWidth = 390,
+                    height = 70,
+                    offset = { 0, 150 },
+                    padding = 6,
                     direction = "row",
                     align = "center",
-                    gap = 8,
+                    justify = "center",
+                    gap = 7,
                 },
-                style = {
-                    background = "#091A22E8",
-                    borderColor = "#EAF7F266",
-                    borderWidth = 2,
-                    cornerRadius = 24,
-                },
+                style = GameUIStyles.panel_style("#17304AF2", 22),
                 children = {
-                    {
-                        id = "build-place",
-                        kind = "button",
-                        icon = "place",
-                        action = "build.place",
-                        layout = { width = 58, height = 58 },
-                        style = GameUIStyles.control_style("#078CF0FF", "#078CF0FF", "#FFFFFFFF", 18),
-                    },
-                    {
-                        id = "build-rotate",
-                        kind = "button",
-                        icon = "rotate",
-                        action = "build.rotate",
-                        layout = { width = 58, height = 58 },
-                        style = GameUIStyles.control_style("#274552FF", "#078CF0FF", "#F7F8EEFF", 18),
-                    },
-                    {
-                        id = "build-remove",
-                        kind = "button",
-                        icon = "trash",
-                        action = "build.remove",
-                        layout = { width = 58, height = 58 },
-                        style = GameUIStyles.control_style("#D9564CFF", "#EF6657FF", "#FFFFFFFF", 18),
-                    },
+                    charm_button("spark", "SPARK", GameUIStyles.colors.spark),
+                    charm_button("splash", "SPLASH", GameUIStyles.colors.splash),
+                    charm_button("sprout", "SPROUT", GameUIStyles.colors.sprout),
                 },
             },
             {
@@ -203,11 +132,11 @@ function GameUIDocument.create()
                 action = "player.move",
                 layout = { anchor = "bottomLeft", width = 120, height = 120, offset = { 20, -24 } },
                 style = {
-                    background = "#091A22C9",
-                    borderColor = "#D6E8E455",
+                    background = "#17304AC9",
+                    borderColor = "#FFFDF4FF55",
                     borderWidth = 2,
                     cornerRadius = 60,
-                    accent = "#EDF0E5FF",
+                    accent = GameUIStyles.colors.paper,
                 },
             },
             {
@@ -216,7 +145,7 @@ function GameUIDocument.create()
                 text = "JUMP",
                 action = "player.jump",
                 layout = { anchor = "bottomRight", width = 86, height = 44, offset = { -22, -84 } },
-                style = GameUIStyles.control_style("#102D3AE8", "#078CF0FF", "#F7F8EEFF", 14),
+                style = GameUIStyles.control_style(GameUIStyles.colors.inkRaised, GameUIStyles.colors.rainbow),
             },
             {
                 id = "player-run",
@@ -224,7 +153,7 @@ function GameUIDocument.create()
                 text = "RUN",
                 action = "player.run",
                 layout = { anchor = "bottomRight", width = 86, height = 44, offset = { -22, -30 } },
-                style = GameUIStyles.control_style("#102D3AE8", "#078CF0FF", "#F7F8EEFF", 14),
+                style = GameUIStyles.control_style(GameUIStyles.colors.inkRaised, GameUIStyles.colors.rainbow),
             },
         },
     }
