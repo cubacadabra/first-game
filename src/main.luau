@@ -1,6 +1,7 @@
 -- Portable entry point for the first-game package.
 -- The build step expands these includes into one sandboxed Luau chunk.
 
+-- @include "@cubacadabra/shared-state-v1.luau"
 -- @include "round.luau"
 -- @include "ui/styles.luau"
 -- @include "ui/document.luau"

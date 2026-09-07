@@ -82,7 +82,9 @@ different state and rules.
 ## Source and build
 
 - manifest.json — package metadata and declarative world content
+- effects.json — game-owned effect recipes inlined into the built manifest
 - src/main.luau — portable lifecycle entry point
+- src/round.luau — Spellbound's reducer and accepted-state feedback
 - src/ui/ — game-owned UI document, styles, and actions
 
 Build the package from this directory with the shared tools:
@@ -94,6 +96,11 @@ PYTHONPATH=../tools/src python3 -m cubacadabra build-game . \
 
 The generated package contains manifest.json, game.luau, package.json, and
 optional assets. It is the runtime distribution used by all clients.
+
+The entry point explicitly includes
+`@cubacadabra/shared-state-v1.luau`. That SDK helper owns compare-and-set
+intent queuing, conflict rebasing, retries, and reconnect snapshots;
+`round.luau` owns only Spellbound's state schema, reducer, and presentation.
 
 The package owns its short one-shot sounds under `assets/audio/` and declares
 them by id in `manifest.json`. Game rules trigger them with
