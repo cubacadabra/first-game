@@ -65,6 +65,11 @@ other game without adding game-specific Rust types. Backend messaging should
 remain a separate generic contract, so a future game can publish its own
 events and state without teaching the platform about its theme.
 
+Spellbound Schoolyard uses the retained network channel `schoolyard-progress`
+with a payload shaped like `{ learned = { spark = true } }`. The runtime and
+backend only carry that JSON; another game may choose completely different
+channels and payloads.
+
 ## Source and build
 
 - manifest.json — package metadata and declarative world content

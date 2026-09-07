@@ -24,6 +24,7 @@ local cast = {}
 local completed = 0
 local celebration_seconds = 0
 local message = "Find the three beginner charms."
+local progress_channel = "schoolyard-progress"
 
 local function count(values)
     local total = 0
@@ -41,6 +42,20 @@ end
 
 local function all_cast()
     return all_learned() and count(cast) == #charm_order
+end
+
+local function progress_payload()
+    local progress = {}
+    for _, id in ipairs(charm_order) do
+        if learned[id] then
+            progress[id] = true
+        end
+    end
+    return { learned = progress }
+end
+
+local function publish_progress(api)
+    api.network:set_state(progress_channel, progress_payload())
 end
 
 local function update_hud(api)
@@ -88,6 +103,27 @@ function FirstGame.on_interaction(_api, event)
     end
     learned[event.id] = true
     message = charm_names[event.id] .. " learned! " .. charm_hints[event.id]
+    publish_progress(_api)
+end
+
+function FirstGame.on_network_message(_api, event)
+    if event.type ~= "game_state" or event.channel ~= progress_channel then
+        return
+    end
+    local payload = event.payload
+    if type(payload) ~= "table" or type(payload.learned) ~= "table" then
+        return
+    end
+    local changed = false
+    for _, id in ipairs(charm_order) do
+        if payload.learned[id] and not learned[id] then
+            learned[id] = true
+            changed = true
+        end
+    end
+    if changed then
+        message = "Your spell circle learned a new charm!"
+    end
 end
 
 function FirstGame.on_ui_event(_api, event)
