@@ -7,7 +7,7 @@
     "entry": "game.luau"
   },
   "displayName": "First Game",
-  "lobby": true,
+  "lobby": false,
   "startWorld": "lobby",
   "launch": {
     "destinationWorld": "real-game",
