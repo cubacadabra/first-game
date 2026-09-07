@@ -2,6 +2,7 @@
 -- The build step expands these includes into one sandboxed Luau chunk.
 
 -- @include "@cubacadabra/shared-state-v1.luau"
+-- @include "@cubacadabra/disclosure-v1.luau"
 -- @include "round.luau"
 -- @include "ui/styles.luau"
 -- @include "ui/document.luau"
@@ -17,6 +18,11 @@ local charm_names = {
 }
 
 local round = SpellboundRound.create(charm_order)
+local objective = CubaDisclosure.create({
+    action = "school.objective.toggle",
+    triggerId = "school-objective",
+    nodeIds = { "school-detail" },
+})
 
 local function update_hud(api)
     local state = api.interactions:get_state()
@@ -43,10 +49,21 @@ local function update_hud(api)
     api.ui:set_text("school-status", status)
     api.ui:set_text("school-help-text", help)
     api.ui:set_text("school-kicker", string.format("SPELLBOUND SCHOOLYARD • %d BURSTS", round.bursts))
-    api.ui:set_visible(
-        "charm-dock",
-        round.phase == "casting" and circle ~= nil and circle.inside
-    )
+    if round.phase == "celebrating" then
+        api.ui:set_text("school-objective", "RAINBOW!")
+    elseif round.phase == "collecting" then
+        api.ui:set_text("school-objective", string.format("CHARMS %d/3", charms_learned))
+    elseif not (circle and circle.inside) then
+        api.ui:set_text("school-objective", "WAND CIRCLE")
+    else
+        api.ui:set_text("school-objective", "CAST CHARMS")
+    end
+    local show_charm_dock = round.phase == "casting" and circle ~= nil and circle.inside
+    if show_charm_dock then
+        objective:set_open(api, false)
+    end
+    api.ui:set_visible("school-objective", not show_charm_dock)
+    api.ui:set_visible("charm-dock", show_charm_dock)
 
     for _, id in ipairs(charm_order) do
         api.ui:set_visible("charm-" .. id, round.learned[id] == true and round.cast[id] ~= true)
@@ -57,6 +74,7 @@ end
 function FirstGame.on_start(api)
     api.lobby:set_status("Learn three charms and make a rainbow burst!")
     api.ui:set_document(GameUIDocument.create())
+    objective:sync(api)
     round:initialize(api)
     update_hud(api)
 end
@@ -76,6 +94,9 @@ function FirstGame.on_network_message(api, event)
 end
 
 function FirstGame.on_ui_event(api, event)
+    if objective:handle(api, event) then
+        return
+    end
     GameUIActions.handle(api, event, round)
 end
 

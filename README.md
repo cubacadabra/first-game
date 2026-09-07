@@ -98,9 +98,15 @@ The generated package contains manifest.json, game.luau, package.json, and
 optional assets. It is the runtime distribution used by all clients.
 
 The entry point explicitly includes
-`@cubacadabra/shared-state-v1.luau`. That SDK helper owns compare-and-set
-intent queuing, conflict rebasing, retries, and reconnect snapshots;
+`@cubacadabra/shared-state-v1.luau` and
+`@cubacadabra/disclosure-v1.luau`. The SDK helpers own compare-and-set intent
+queuing and the compact objective's open state, while
 `round.luau` owns only Spellbound's state schema, reducer, and presentation.
+
+Spellbound teaches its objective with a game-owned schoolyard billboard. Its
+persistent HUD is only a compact charm-progress control; tapping it reveals
+the current round detail. The bottom-center progress control is replaced by
+the three casting actions when the player enters the Wand Circle.
 
 The package owns its short one-shot sounds under `assets/audio/` and declares
 them by id in `manifest.json`. Game rules trigger them with

@@ -8,7 +8,7 @@ local function charm_button(id, label, color)
         action = "charm.cast." .. id,
         visible = false,
         visibleIn = { "schoolyard" },
-        layout = { width = 112, height = 58 },
+        layout = { width = 104, height = 56 },
         style = GameUIStyles.charm_style(color),
     }
 end
@@ -17,15 +17,33 @@ function GameUIDocument.create()
     return {
         nodes = {
             {
-                id = "school-header",
-                kind = "panel",
+                id = "school-objective",
+                kind = "button",
+                text = "CHARMS 0/3",
+                action = "school.objective.toggle",
                 visibleIn = { "schoolyard" },
                 layout = {
-                    anchor = "top",
-                    width = "90%",
-                    maxWidth = 390,
-                    height = 96,
-                    offset = { 0, 74 },
+                    region = "bottomCenter",
+                    width = 104,
+                    height = 56,
+                },
+                style = GameUIStyles.control_style(
+                    GameUIStyles.colors.ink,
+                    GameUIStyles.colors.rainbow,
+                    GameUIStyles.colors.paper,
+                    18
+                ),
+            },
+            {
+                id = "school-detail",
+                kind = "panel",
+                visible = false,
+                visibleIn = { "schoolyard" },
+                layout = {
+                    anchor = "topRight",
+                    width = 276,
+                    height = 112,
+                    offset = { -18, 102 },
                     padding = 10,
                     direction = "column",
                     align = "stretch",
@@ -62,16 +80,14 @@ function GameUIDocument.create()
                 visible = false,
                 visibleIn = { "schoolyard" },
                 layout = {
-                    anchor = "top",
-                    width = "90%",
-                    maxWidth = 390,
-                    height = 70,
-                    offset = { 0, 180 },
-                    padding = 6,
+                    region = "bottomCenter",
+                    width = 344,
+                    height = 64,
+                    padding = 4,
                     direction = "row",
                     align = "center",
                     justify = "center",
-                    gap = 7,
+                    gap = 6,
                 },
                 style = GameUIStyles.panel_style("#17304AF2", 22),
                 children = {

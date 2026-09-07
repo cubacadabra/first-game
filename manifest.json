@@ -123,7 +123,15 @@
         { "position": [9, 0.55, -15], "size": [3.6, 1.1, 3.6], "color": "splash" },
         { "position": [-18, 0.4, 1], "size": [2.5, 0.8, 2.5], "color": "sprout" },
         { "position": [18, 0.4, 1], "size": [2.5, 0.8, 2.5], "color": "rainbow" },
-        { "position": [0, 0.35, -29], "size": [8, 0.7, 1.5], "color": "ink", "outline": false }
+        { "position": [0, 0.35, -29], "size": [8, 0.7, 1.5], "color": "ink", "outline": false },
+        { "position": [-7.5, 2.25, 6], "size": [8.4, 3.4, 0.35], "color": "ink", "outline": false },
+        { "position": [-10.8, 1.1, 6], "size": [0.35, 2.2, 0.35], "color": "ink", "outline": false },
+        { "position": [-4.2, 1.1, 6], "size": [0.35, 2.2, 0.35], "color": "ink", "outline": false }
+      ],
+      "signs": [
+        { "text": "SPELLBOUND", "position": [-7.5, 3.15, 6.22], "maxWidth": 7.2, "color": "rainbow" },
+        { "text": "LEARN 3 CHARMS", "position": [-7.5, 2.45, 6.22], "maxWidth": 7.2, "color": "paper" },
+        { "text": "MEET AT WAND CIRCLE", "position": [-7.5, 1.75, 6.22], "maxWidth": 7.2, "color": "paper" }
       ],
       "interactions": [
         {
