@@ -3,6 +3,7 @@ SpellboundRound.__index = SpellboundRound
 
 local STATE_CHANNEL = "schoolyard-round"
 local CELEBRATION_SECONDS = 4.5
+local BURST_POSITION = { 0, 0, 0 }
 
 local function copy_flags(source, ids)
     local result = {}
@@ -212,6 +213,7 @@ function SpellboundRound:apply_snapshot(api, event)
     if self.hasSnapshot then
         if next_phase == "celebrating" and previous_phase ~= "celebrating" then
             api.audio:play("rainbow-burst")
+            api.effects:play("rainbow-burst", { position = BURST_POSITION })
         end
     end
 
@@ -222,6 +224,11 @@ function SpellboundRound:apply_snapshot(api, event)
     self.bursts = next_bursts
     self.sequence = sequence
     self.hasSnapshot = true
+
+    for _, id in ipairs(self.charmOrder) do
+        api.effects:set_state(id, self.learned[id] and "collected" or "available")
+    end
+    api.effects:set_state("wand-circle", self.phase)
 
     for _, id in ipairs(self.charmOrder) do
         if self.learned[id] or self.phase ~= "collecting" then

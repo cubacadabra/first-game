@@ -43,12 +43,15 @@ a spell, schoolyard, or Wand Circle is:
   "label": "SPARK",
   "position": [-15, 0, -8],
   "radius": 2.7,
-  "color": "spark"
+  "color": "spark",
+  "visual": "charm-pad"
 }]
 ~~~
 
-Rust provides proximity tracking, local enter/exit events, and the number of
-players in each zone. Luau owns the rules and presentation:
+Rust provides proximity tracking, local enter/exit events, bounded effect
+primitives, and the number of players in each zone. The manifest composes the
+`charm-pad`, `wand-circle`, and `rainbow-burst` visuals; Luau owns their states
+and triggers:
 
 ~~~luau
 function Game.on_interaction(api, event)
@@ -58,6 +61,9 @@ end
 local state = api.interactions:get_state()
 local zone = state.zones["spark"]
 -- zone.inside, zone.nearby, zone.players, zone.kind, zone.label
+
+api.effects:set_state("spark", "collected")
+api.effects:play("rainbow-burst", { position = { 0, 0, 0 } })
 ~~~
 
 This same API can power doors, checkpoints, treasures, race gates, or any
