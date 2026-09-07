@@ -65,10 +65,13 @@ other game without adding game-specific Rust types. Backend messaging should
 remain a separate generic contract, so a future game can publish its own
 events and state without teaching the platform about its theme.
 
-Spellbound Schoolyard uses the retained network channel `schoolyard-progress`
-with a payload shaped like `{ learned = { spark = true } }`. The runtime and
-backend only carry that JSON; another game may choose completely different
-channels and payloads.
+Spellbound Schoolyard uses the compare-and-set retained channel
+`schoolyard-round`. Its Luau state contains the round, phase, learned charms,
+shared casts, burst count, and last action. Concurrent players merge and retry
+against the Durable Object's sequence, so one player learning or casting cannot
+erase another player's progress. The runtime and backend only carry opaque JSON
+and sequences; another game can use the same primitive with completely
+different state and rules.
 
 ## Source and build
 

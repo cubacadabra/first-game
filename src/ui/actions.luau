@@ -1,6 +1,6 @@
 local GameUIActions = {}
 
-function GameUIActions.handle(api, event, learned, cast, set_message)
+function GameUIActions.handle(api, event, round)
     if event.phase ~= "activate" then
         return
     end
@@ -10,11 +10,10 @@ function GameUIActions.handle(api, event, learned, cast, set_message)
     end
 
     local id = string.sub(event.action, #prefix + 1)
-    if learned[id] and not cast[id] then
-        cast[id] = true
-        api.audio:play("spell-cast")
-        set_message("You cast " .. string.upper(id) .. "! Add another charm to the burst.")
+    if round.learned[id] and not round.cast[id] then
+        round:request_cast(api, id)
+        api.ui:set_checked("charm-" .. id, false)
     else
-        api.ui:set_checked("charm-" .. id, cast[id] == true)
+        api.ui:set_checked("charm-" .. id, round.cast[id] == true)
     end
 end
