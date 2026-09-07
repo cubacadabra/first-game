@@ -38,7 +38,7 @@
             "size": [2.98, 0.2, 1],
             "color": "ink",
             "opacity": 0.92,
-            "visibleStates": ["default", "available"]
+            "visibleStates": ["default", "available", "collected"]
           },
           {
             "shape": "cylinder",
@@ -46,7 +46,7 @@
             "size": [2.7, 0.035, 1],
             "color": "$interaction",
             "opacity": 0.52,
-            "visibleStates": ["default", "available"]
+            "visibleStates": ["default", "available", "collected"]
           },
           {
             "shape": "ring",
@@ -92,8 +92,9 @@
             "position": [0, 0.16, 0],
             "size": [2.52, 0.08, 1],
             "color": "$interaction",
-            "opacity": 0.2,
-            "visibleStates": ["collected"]
+            "opacity": 0.62,
+            "visibleStates": ["collected"],
+            "animation": { "pulseAmount": 0.018, "pulseSpeed": 1.4 }
           }
         ]
       },
