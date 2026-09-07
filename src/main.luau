@@ -23,6 +23,7 @@ local learned = {}
 local cast = {}
 local completed = 0
 local celebration_seconds = 0
+local circle_ready_announced = false
 local message = "Find the three beginner charms."
 local progress_channel = "schoolyard-progress"
 
@@ -82,7 +83,7 @@ local function update_hud(api)
 
     api.ui:set_text("school-status", status)
     api.ui:set_text("school-help-text", help)
-    api.ui:set_text("score-value", tostring(completed))
+    api.ui:set_text("school-kicker", string.format("SPELLBOUND SCHOOLYARD • %d BURSTS", completed))
     api.ui:set_visible("charm-dock", celebration_seconds <= 0 and circle ~= nil and circle.inside and all_learned())
 
     for _, id in ipairs(charm_order) do
@@ -103,6 +104,7 @@ function FirstGame.on_interaction(_api, event)
     end
     learned[event.id] = true
     message = charm_names[event.id] .. " learned! " .. charm_hints[event.id]
+    _api.audio:play("charm-learned")
     publish_progress(_api)
 end
 
@@ -138,12 +140,22 @@ function FirstGame.on_tick(api, delta_seconds)
         if celebration_seconds <= 0 then
             learned = {}
             cast = {}
+            circle_ready_announced = false
             message = "A new round! Find the three beginner charms."
         end
     elseif all_cast() then
         completed = completed + 1
         celebration_seconds = 4.5
         message = "You made a rainbow burst with your friends!"
+        api.audio:play("rainbow-burst")
+    elseif all_learned() and not circle_ready_announced then
+        local state = api.interactions:get_state()
+        local circle = state.zones["wand-circle"]
+        if circle and circle.inside then
+            circle_ready_announced = true
+            message = "Wands ready! Cast all three charms."
+            api.audio:play("circle-ready")
+        end
     end
     update_hud(api)
 end

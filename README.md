@@ -80,11 +80,17 @@ Build the package from this directory with the shared tools:
 
 ~~~sh
 PYTHONPATH=../tools/src python3 -m cubacadabra build-game . \
-  --output build/package --zip build/first-game-v1.zip
+  --output build/package --zip build/first-game-v0.0.1.zip
 ~~~
 
 The generated package contains manifest.json, game.luau, package.json, and
 optional assets. It is the runtime distribution used by all clients.
+
+The package owns its short one-shot sounds under `assets/audio/` and declares
+them by id in `manifest.json`. Game rules trigger them with
+`api.audio:play("sound-id")`; the shared runtime and each host remain responsible
+for playback. New games can ship their own WAV files without adding themed
+assets or sound ids to Rust.
 
 Lobbies are optional. Set "lobby": false to route players directly to the
 manifest's start world or its launch destination. The current game uses direct

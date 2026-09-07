@@ -1,10 +1,30 @@
 {
   "id": "first-game",
-  "version": 3,
+  "version": "0.0.1",
   "sdkVersion": "0.3",
   "package": {
     "formatVersion": 3,
     "entry": "game.luau"
+  },
+  "assets": {
+    "audio": {
+      "charm-learned": {
+        "path": "assets/audio/charm-learned.wav",
+        "volume": 0.72
+      },
+      "spell-cast": {
+        "path": "assets/audio/spell-cast.wav",
+        "volume": 0.68
+      },
+      "circle-ready": {
+        "path": "assets/audio/circle-ready.wav",
+        "volume": 0.62
+      },
+      "rainbow-burst": {
+        "path": "assets/audio/rainbow-burst.wav",
+        "volume": 0.78
+      }
+    }
   },
   "displayName": "First Game: Spellbound Schoolyard",
   "lobby": false,
