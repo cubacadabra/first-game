@@ -16,7 +16,7 @@ ios_app/       Swift platform adapter
 android_app/  Kotlin platform adapter
 ~~~
 
-## MVP: Spellbound Schoolyard
+## Developer Preview 0.3: Spellbound Schoolyard
 
 Players arrive in a sunny schoolyard and discover three beginner charms:
 Spark, Splash, and Sprout. Walking into a glowing interaction zone teaches the
@@ -26,7 +26,7 @@ each charm to make a rainbow burst.
 A solo player can complete the loop. Two or three players can split up to find
 charms and then celebrate together in the circle. The round resets after a
 short celebration, making the game easy to replay. There are no NPCs or dark
-themes in this MVP.
+themes in this preview.
 
 Future versions can add more kid-friendly charms, spell combinations, wand
 trails, badges, time trials, and friendly teachers or creatures.
@@ -91,7 +91,7 @@ Build the package from this directory with the shared tools:
 
 ~~~sh
 PYTHONPATH=../tools/src python3 -m cubacadabra build-game . \
-  --output build/package --zip build/first-game-v0.0.1.zip
+  --output build/package --zip build/first-game-v0.3.0.zip
 ~~~
 
 The generated package contains manifest.json, game.luau, package.json, and

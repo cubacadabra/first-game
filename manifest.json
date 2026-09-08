@@ -1,7 +1,7 @@
 {
   "id": "first-game",
-  "version": "0.0.1",
-  "sdkVersion": "0.3",
+  "version": "0.3.0",
+  "sdkVersion": "0.3.0",
   "package": {
     "formatVersion": 3,
     "entry": "game.luau"
