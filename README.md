@@ -120,3 +120,10 @@ start so players can begin playing immediately.
 
 Read ../web/README.md for package syncing and ../rust/README.md for the runtime
 and host API.
+
+### Licensing
+
+Copyright (C) 2026 Andrew Arrow
+
+Licensed under the GNU General Public License v3.0 or later.
+See [LICENSE](LICENSE).
