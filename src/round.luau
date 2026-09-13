@@ -78,6 +78,7 @@ local function reducer_for(charm_order)
     return function(state, intent)
         if intent.type == "learn"
             and state.phase == "collecting"
+            and intent.round == state.round
             and not state.learned[intent.charm]
         then
             local learned = copy_flags(state.learned, charm_order)
@@ -95,6 +96,7 @@ local function reducer_for(charm_order)
 
         if intent.type == "cast"
             and state.phase == "casting"
+            and intent.round == state.round
             and state.learned[intent.charm]
             and not state.cast[intent.charm]
         then
@@ -143,6 +145,9 @@ function SpellboundRound.create(charm_order)
         end,
         validate = validator_for(charm_order),
         reduce = reducer_for(charm_order),
+        intentExpired = function(state, intent)
+            return intent.round ~= state.round
+        end,
         onChange = function(api, state, previous, event)
             round:on_change(api, state, previous, event)
         end,
@@ -227,7 +232,7 @@ function SpellboundRound:request_learn(api, charm)
         return
     end
     self.message = "Learning " .. string.upper(charm) .. "..."
-    self.shared:dispatch(api, { type = "learn", charm = charm })
+    self.shared:dispatch(api, { type = "learn", charm = charm, round = self.round })
 end
 
 function SpellboundRound:request_cast(api, charm)
@@ -235,7 +240,7 @@ function SpellboundRound:request_cast(api, charm)
         return
     end
     self.message = "Casting " .. string.upper(charm) .. "..."
-    self.shared:dispatch(api, { type = "cast", charm = charm })
+    self.shared:dispatch(api, { type = "cast", charm = charm, round = self.round })
 end
 
 function SpellboundRound:apply_snapshot(api, event)
