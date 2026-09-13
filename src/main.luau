@@ -1,12 +1,10 @@
 -- Portable entry point for the first-game package.
--- The build step expands these includes into one sandboxed Luau chunk.
+-- The build step bundles this module graph into one sandboxed Luau chunk.
 
--- @include "@cubacadabra/shared-state-v1.luau"
--- @include "@cubacadabra/disclosure-v1.luau"
--- @include "round.luau"
--- @include "ui/styles.luau"
--- @include "ui/document.luau"
--- @include "ui/actions.luau"
+local CubaDisclosure = require("@cubacadabra/disclosure")
+local SpellboundRound = require("./round")
+local GameUIDocument = require("./ui/document")
+local GameUIActions = require("./ui/actions")
 
 local FirstGame = {}
 

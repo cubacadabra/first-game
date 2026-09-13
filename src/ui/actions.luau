@@ -17,3 +17,5 @@ function GameUIActions.handle(api, event, round)
         api.ui:set_checked("charm-" .. id, round.cast[id] == true)
     end
 end
+
+return GameUIActions

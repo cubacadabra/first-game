@@ -1,3 +1,5 @@
+local CubaSharedState = require("@cubacadabra/shared-state")
+
 local SpellboundRound = {}
 SpellboundRound.__index = SpellboundRound
 
@@ -253,3 +255,5 @@ function SpellboundRound:tick(api, delta_seconds)
         self.shared:dispatch(api, { type = "reset", round = self.round })
     end
 end
+
+return SpellboundRound

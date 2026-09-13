@@ -97,11 +97,12 @@ PYTHONPATH=../tools/src python3 -m cubacadabra build-game . \
 The generated package contains manifest.json, game.luau, package.json, and
 optional assets. It is the runtime distribution used by all clients.
 
-The entry point explicitly includes
-`@cubacadabra/shared-state-v1.luau` and
-`@cubacadabra/disclosure-v1.luau`. The SDK helpers own compare-and-set intent
-queuing and the compact objective's open state, while
+The game uses ordinary Luau modules. `round.luau` requires
+`@cubacadabra/shared-state`, while the entry point requires
+`@cubacadabra/disclosure`, the round, and its UI modules. The SDK helpers own
+compare-and-set intent queuing and the compact objective's open state, while
 `round.luau` owns only Spellbound's state schema, reducer, and presentation.
+The build still emits one self-contained `game.luau` for every runtime.
 
 Spellbound teaches its objective with a game-owned schoolyard billboard. Its
 persistent HUD is only a compact charm-progress control; tapping it reveals

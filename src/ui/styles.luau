@@ -46,3 +46,5 @@ function GameUIStyles.control_style(background, accent, foreground, radius)
         fontSize = 14,
     }
 end
+
+return GameUIStyles

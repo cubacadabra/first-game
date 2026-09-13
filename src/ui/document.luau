@@ -1,3 +1,5 @@
+local GameUIStyles = require("./styles")
+
 local GameUIDocument = {}
 
 local function charm_button(id, label, color)
@@ -128,3 +130,5 @@ function GameUIDocument.create()
         },
     }
 end
+
+return GameUIDocument
